@@ -34,7 +34,9 @@ namespace BeneathTheSurface.MonoSystems
             Vector2 dir = (new Vector2(wave.x, wave.y)).normalized;
             float f = k * (Vector2.Dot(dir, new Vector2(pt.x, pt.z)) - speed * _time);
 
-            return new Vector3(dir.x * Mathf.Exp(-k / smoothness) * Mathf.Cos(f) / k, Mathf.Exp(-k / smoothness) * Mathf.Sin(f) / k, dir.y * Mathf.Exp(-k / smoothness) * Mathf.Cos(f) / k);
+            float factor = smoothness / k;//Mathf.Exp(-k / smoothness) / k;
+
+            return (new Vector3(dir.x * Mathf.Cos(f), Mathf.Sin(f), dir.y * Mathf.Cos(f))) * factor;
         }
 
         public float GetSeaLevel()

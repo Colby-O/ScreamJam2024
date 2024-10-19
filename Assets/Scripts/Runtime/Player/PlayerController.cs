@@ -34,8 +34,6 @@ namespace BeneathTheSurface.Player
 		private Vector3 _movementSpeed;
 		private Vector3 _movementSpeedVel;
 
-		private bool _inTaskMenu = false;
-
 		private void HandleMovementAction(InputAction.CallbackContext e)
 		{
 			_rawMovementInput = e.ReadValue<Vector2>();
