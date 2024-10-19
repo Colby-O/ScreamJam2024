@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521204870044b9e41818df7ad14522f5, type: 3}
+  m_Name: PlayerSettings
+  m_EditorClassIdentifier: 
+  sensitivityMax: 12
+  sensitivityMin: 4
+  sensitivityX: 8
+  sensitivityY: 8
+  invertedViewX: 0
+  invertedViewY: 1
+  maxViewY: 80
+  minViewY: -80
+  walkingForwardSpeed: 8
+  walkingBackwardSpeed: 8
+  walkingStrateSpeed: 8
+  movementSmoothing: 0
+  speedEffector: 1
+  crouchSpeedEffector: 0

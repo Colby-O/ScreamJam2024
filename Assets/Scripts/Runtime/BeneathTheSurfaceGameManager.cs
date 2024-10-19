@@ -1,3 +1,4 @@
+using BeneathTheSurface.MonoSystems;
 using PlazmaGames.Animation;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
@@ -17,6 +18,9 @@ namespace BeneathTheSurface
         [SerializeField] private UIMonoSystem _uiMonoSystem;
         [SerializeField] private AnimationMonoSystem _animationMonoSystem;
         [SerializeField] private AudioMonoSystem _audioMonoSystem;
+        [SerializeField] private OceanMonoSystem _oceanMonoSystem;
+
+        public static bool allowInput = true;
 
         /// <summary>
         /// Adds all events listeners
@@ -42,6 +46,7 @@ namespace BeneathTheSurface
             AddMonoSystem<UIMonoSystem, IUIMonoSystem>(_uiMonoSystem);
             AddMonoSystem<AnimationMonoSystem, IAnimationMonoSystem>(_animationMonoSystem);
             AddMonoSystem<AudioMonoSystem, IAudioMonoSystem>(_audioMonoSystem);
+            AddMonoSystem<OceanMonoSystem, IOceanMonoSystem>(_oceanMonoSystem);
         }
 
         public override string GetApplicationName()
