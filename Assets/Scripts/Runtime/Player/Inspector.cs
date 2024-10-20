@@ -131,8 +131,8 @@ namespace BeneathTheSurface.Player
 						_examinedObject.position = _offset.transform.position;
 						if (Keyboard.current[Key.RightArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.right, 90f);
                         else if (Keyboard.current[Key.LeftArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.right, -90f);
-                        if (Keyboard.current[Key.UpArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.forward, 90f);
-                        else if (Keyboard.current[Key.DownArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.forward, -90f);
+                        if (Keyboard.current[Key.UpArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.up, 90f);
+                        else if (Keyboard.current[Key.DownArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.up, -90f);
                         return;
 
                     }

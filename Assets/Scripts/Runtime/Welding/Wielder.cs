@@ -44,7 +44,7 @@ namespace BeneathTheSurface.Wielding
                     decal.transform.parent = hit.transform;
 
                     _sparkLight.gameObject.SetActive(true);
-                    _sparks.transform.parent.position = hit.point + _head.forward * 0.01f;
+                    _sparks.transform.parent.position = hit.point + _head.forward * 0.02f;
                     var sparkEmission = _sparks.emission;
                     sparkEmission.rateOverTime = sparkEmissionRate;
                 }

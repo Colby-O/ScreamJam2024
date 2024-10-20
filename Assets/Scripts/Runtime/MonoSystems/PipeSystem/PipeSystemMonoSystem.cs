@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 namespace BeneathTheSurface.MonoSystems
 {
@@ -32,13 +33,19 @@ namespace BeneathTheSurface.MonoSystems
             GameObject prefab = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             foreach (Vector2 p in pts)
             {
-                GameObject obj = Instantiate(prefab, new Vector3(Mathf.Floor(p.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(p.y / GridSize) * GridSize), Quaternion.identity);
+                GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                obj.transform.position = new Vector3(Mathf.Floor(p.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(p.y / GridSize) * GridSize);
                 obj.GetComponent<MeshRenderer>().material.color = Color.blue;
 
             }
-
-            GameObject master = Instantiate(prefab, new Vector3(Mathf.Floor(_masterSector.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(_masterSector.y / GridSize) * GridSize), Quaternion.identity);
+            GameObject master = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            master.transform.position = new Vector3(Mathf.Floor(_masterSector.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(_masterSector.y / GridSize) * GridSize);
             master.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+
+        private void GeneratePipes()
+        {
+
         }
 
         private void Awake()
