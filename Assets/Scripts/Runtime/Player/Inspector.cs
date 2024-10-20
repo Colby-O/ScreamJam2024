@@ -1,7 +1,6 @@
 using PlazmaGames.Core;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using BeneathTheSurface.Inspectables;
@@ -47,7 +46,7 @@ namespace BeneathTheSurface.Player
 		{
 			if (obj == null && !_isExaming) return;
 
-			_firstLoop = true;
+            _firstLoop = true;
 
             _isExaming = true;
 
@@ -127,8 +126,17 @@ namespace BeneathTheSurface.Player
 
 				if (_type == ExamineType.Goto)
 				{
-					_examinedObject.position = Vector3.Lerp(_examinedObject.position, _offset.transform.position, 0.2f);
-					if (_isMoveable) return;
+					if (_isMoveable)
+					{
+						_examinedObject.position = _offset.transform.position;
+						if (Keyboard.current[Key.RightArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.right, 90f);
+                        else if (Keyboard.current[Key.LeftArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.right, -90f);
+                        if (Keyboard.current[Key.UpArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.forward, 90f);
+                        else if (Keyboard.current[Key.DownArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.forward, -90f);
+                        return;
+
+                    }
+                    _examinedObject.position = Vector3.Lerp(_examinedObject.position, _offset.transform.position, 0.2f);
 					Vector3 deltaMouse = Input.mousePosition - _lastMousePosition;
 					float rotationSpeed = 1.0f;
 					_examinedObject.Rotate(deltaMouse.x * rotationSpeed * Vector3.up, Space.World);

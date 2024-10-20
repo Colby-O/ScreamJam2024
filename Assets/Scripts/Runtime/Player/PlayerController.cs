@@ -127,11 +127,11 @@ namespace BeneathTheSurface.Player
 
 			_moveAction = _playerInput.actions["Movement"];
 			_lookAction = _playerInput.actions["Look"];
-            _pauseAction = _playerInput.actions["Esc"];
+            //_pauseAction = _playerInput.actions["Esc"];
 
             _moveAction.performed += HandleMovementAction;
 			_lookAction.performed += HandleLookAction;
-			_pauseAction.performed += HandlePuase;
+			//_pauseAction.performed += HandlePuase;
         }
 
 		private void Update()

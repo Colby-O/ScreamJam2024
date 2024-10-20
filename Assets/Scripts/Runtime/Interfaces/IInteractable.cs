@@ -6,7 +6,7 @@ using BeneathTheSurface.Player;
 
 namespace BeneathTheSurface.Interfaces
 {
-    internal interface IInteractable 
+    public interface IInteractable 
     {
         public bool IsPickupable();
 

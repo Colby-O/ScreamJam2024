@@ -120,13 +120,13 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth: -1.04
+    - _Depth: -3.68
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FoamDistance: 0.59
+    - _FoamDistance: 0.4
     - _FoamScale: 0
     - _FoamStrength: 1
     - _GlossMapScale: 0
@@ -134,23 +134,27 @@ Material:
     - _GlossyReflections: 0
     - _LODScale: 0.5
     - _Metallic: 0
-    - _NormalStrength: 1
-    - _NormalTIle: 0.09
+    - _NormalStrength: 0.61
+    - _NormalTIle: 0.27
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PhysicsTime: 132.26424
+    - _PhysicsTime: 404.15845
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RainFPS: 16
     - _RainFadeDensity: 1
     - _RainSpeed: 1
-    - _RainStrength: 1
+    - _RainStrength: 0.06
     - _RainTile: 0.82
     - _ReceiveShadows: 1
     - _Smoothness: 0.574
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 0.5
+    - _SpeedScaleA: 1
+    - _SpeedScaleB: 2
+    - _SpeedScaleC: 0.27
+    - _SpeedScaleD: 1.45
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -170,9 +174,9 @@ Material:
     - _WaterA: {r: 0, g: 0.03676009, b: 1, a: 0}
     - _WaterB: {r: 0, g: 0.30938768, b: 1, a: 0}
     - _WaterColorB: {r: 0, g: 0.07727194, b: 1, a: 0}
-    - _WaveA: {r: 0.5, g: 0.2, b: 0.5, a: 10}
-    - _WaveB: {r: 0, g: 1, b: 0.25, a: 20}
-    - _WaveC: {r: 1, g: 1, b: 0.15, a: 10}
+    - _WaveA: {r: 0.34, g: 0.2, b: 0.1, a: 20}
+    - _WaveB: {r: 0.46, g: 1, b: 0.09, a: 40}
+    - _WaveC: {r: 0.66, g: 1, b: 0.09, a: 20}
     - _WaveColorA: {r: 0, g: 0.3359518, b: 1, a: 0}
-    - _WaveD: {r: 0.5, g: 0.7, b: 0.3, a: 15}
+    - _WaveD: {r: -0.34, g: 0.7, b: 0.06, a: 15}
   m_BuildTextureStacks: []

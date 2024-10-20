@@ -19,6 +19,8 @@ namespace BeneathTheSurface
         [SerializeField] private AnimationMonoSystem _animationMonoSystem;
         [SerializeField] private AudioMonoSystem _audioMonoSystem;
         [SerializeField] private OceanMonoSystem _oceanMonoSystem;
+        [SerializeField] private BuildingMonoSystem _buildingMonoSystem;
+        [SerializeField] private PipeSystemMonoSystem _pipeSystemMonoSystem;
 
         public static bool allowInput = true;
 
@@ -47,6 +49,8 @@ namespace BeneathTheSurface
             AddMonoSystem<AnimationMonoSystem, IAnimationMonoSystem>(_animationMonoSystem);
             AddMonoSystem<AudioMonoSystem, IAudioMonoSystem>(_audioMonoSystem);
             AddMonoSystem<OceanMonoSystem, IOceanMonoSystem>(_oceanMonoSystem);
+            AddMonoSystem<BuildingMonoSystem, IBuildingMonoSystem>(_buildingMonoSystem);
+            AddMonoSystem<PipeSystemMonoSystem, IPipeSystemMonoSystem>(_pipeSystemMonoSystem);
         }
 
         public override string GetApplicationName()

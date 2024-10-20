@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace BeneathTheSurface.Inspectables
 {
-    internal enum ExamineType
+    public enum ExamineType
     {
         Goto,
         ComeTo
     }
 
-    internal class InspectableObject : MonoBehaviour, IInteractable
+    public class InspectableObject : MonoBehaviour, IInteractable
     {
         [SerializeField] protected ExamineType _type = ExamineType.Goto;
         [SerializeField] protected GameObject offsetPoint = null;
@@ -22,8 +22,9 @@ namespace BeneathTheSurface.Inspectables
 
         public virtual bool Interact(Interactor interactor)
         {
-            if (_auidoclip != null) _auidoSource.PlayOneShot(_auidoclip);
             Inspector inspector = interactor.GetComponent<Inspector>();
+            if (inspector.IsExaming) return false;
+            if (_auidoclip != null) _auidoSource.PlayOneShot(_auidoclip);
             PlayerController pc = interactor.GetComponent<PlayerController>();
             pc.ZeroInput();
             inspector.StartExamine(transform, _type, offsetPoint);

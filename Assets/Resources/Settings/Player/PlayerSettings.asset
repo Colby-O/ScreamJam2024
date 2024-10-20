@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivityMax: 12
   sensitivityMin: 4
-  sensitivityX: 8
-  sensitivityY: 8
+  sensitivityX: 32
+  sensitivityY: 32
   invertedViewX: 0
   invertedViewY: 1
   maxViewY: 80

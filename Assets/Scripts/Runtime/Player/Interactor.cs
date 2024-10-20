@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace BeneathTheSurface.Player
 {
 	[RequireComponent(typeof(PlayerInput))]
-	internal sealed class Interactor : MonoBehaviour
+	public sealed class Interactor : MonoBehaviour
 	{
 		[Header("References")]
 		[SerializeField] private PlayerInput _playerInput;
