@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50769cb0249d50942a5d9bbfc76b50ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfSectors: 0
+  _numberOfSectors: 1
   _bounds:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 100, y: 1, z: 100}
@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d9da330e6435104dbd42dda19171608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingView: 
+  _startingView: BeneathTheSurface.UI.MainMenuView, Assembly-CSharp
   _views: []
   _currentView: {fileID: 0}
 --- !u!1 &6382931795814629968
@@ -694,6 +694,62 @@ MonoBehaviour:
   _oceanMonoSystem: {fileID: 5599252186712073503}
   _buildingMonoSystem: {fileID: 2543696979018234724}
   _pipeSystemMonoSystem: {fileID: 7375121446495520466}
+  _weatherMonoSystem: {fileID: 524739414354283511}
+--- !u!1 &7084753780118097588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5151307285429828150}
+  - component: {fileID: 524739414354283511}
+  m_Layer: 0
+  m_Name: WeatherMonoSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5151307285429828150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084753780118097588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7931701935537963834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &524739414354283511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084753780118097588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d37208b03105f49aa84f5109c20dad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lighting: {fileID: 0}
+  _rain: {fileID: 0}
+  _lightingInterval: {x: 8, y: 15}
+  _thunderDelay: {x: 1, y: 7}
+  _thunderClips:
+  - {fileID: 8300000, guid: 46ecaec4c00320c4b88e643d6db206ff, type: 3}
+  - {fileID: 8300000, guid: 86e03b0aa590100408c33b0f1c0b443a, type: 3}
+  - {fileID: 8300000, guid: b39bdc4503f687c419171a4132a8ecea, type: 3}
+  - {fileID: 8300000, guid: ac4c518503cfe584dadd5c997debe742, type: 3}
+  _rainOutdoorClip: {fileID: 8300000, guid: 6a89e6b9f8dd3bb409d16c8f32b61886, type: 3}
+  _rainIndoorClip: {fileID: 8300000, guid: 200361452ed56894ba6d8d27b298f3e6, type: 3}
 --- !u!1 &7799458239768524629
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,5 +840,6 @@ Transform:
   - {fileID: 1159066069578572577}
   - {fileID: 229478688018125385}
   - {fileID: 1589234237442395571}
+  - {fileID: 5151307285429828150}
   m_Father: {fileID: 8920023617761395784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

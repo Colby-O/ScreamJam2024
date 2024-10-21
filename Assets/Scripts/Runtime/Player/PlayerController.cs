@@ -141,9 +141,6 @@ namespace BeneathTheSurface.Player
             if (_inspector == null) _inspector = GetComponent<Inspector>();
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.maxLinearVelocity = float.MaxValue;
-            
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
 
             _headRotation = _head.transform.localRotation.eulerAngles;
 

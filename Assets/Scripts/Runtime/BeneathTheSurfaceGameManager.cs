@@ -1,3 +1,4 @@
+using BeneathTheSurface.Events;
 using BeneathTheSurface.MonoSystems;
 using PlazmaGames.Animation;
 using PlazmaGames.Audio;
@@ -21,6 +22,7 @@ namespace BeneathTheSurface
         [SerializeField] private OceanMonoSystem _oceanMonoSystem;
         [SerializeField] private BuildingMonoSystem _buildingMonoSystem;
         [SerializeField] private PipeSystemMonoSystem _pipeSystemMonoSystem;
+        [SerializeField] private WeatherMonoSystem _weatherMonoSystem;
 
         public static bool allowInput = true;
 
@@ -51,6 +53,25 @@ namespace BeneathTheSurface
             AddMonoSystem<OceanMonoSystem, IOceanMonoSystem>(_oceanMonoSystem);
             AddMonoSystem<BuildingMonoSystem, IBuildingMonoSystem>(_buildingMonoSystem);
             AddMonoSystem<PipeSystemMonoSystem, IPipeSystemMonoSystem>(_pipeSystemMonoSystem);
+            AddMonoSystem<WeatherMonoSystem, IWeatherMonoSystem>(_weatherMonoSystem);
+        }
+
+        private void AddEvents()
+        {
+            AddEventListener<BSEvents.OpenMenu>(UIGameEvents.OpenMenuResponse);
+            AddEventListener<BSEvents.CloseMenu>(UIGameEvents.CloseMenuResponse);
+            AddEventListener<BSEvents.Pause>(UIGameEvents.PauseResponse);
+
+            AddEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
+        }
+
+        private void RemoveEvents()
+        {   
+            RemoveEventListener<BSEvents.OpenMenu>(UIGameEvents.OpenMenuResponse);
+            RemoveEventListener<BSEvents.CloseMenu>(UIGameEvents.CloseMenuResponse);
+            RemoveEventListener<BSEvents.Pause>(UIGameEvents.PauseResponse);
+
+            RemoveEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
         public override string GetApplicationName()
@@ -62,6 +83,9 @@ namespace BeneathTheSurface
         {
             // Ataches all MonoSystems to the GameManager
             AttachMonoSystems();
+
+            // Adds Event Listeners
+            AddEvents();
 
             // Adds Event Listeners
             AddListeners();

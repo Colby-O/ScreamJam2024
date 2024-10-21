@@ -28,10 +28,9 @@ namespace BeneathTheSurface.Wielding
 
         private void CheckForHit()
         {
-            Debug.DrawRay(_head.position, -_head.forward, Color.white, 1f);
-            if (Physics.Raycast(_head.position, -_head.forward, out RaycastHit hit, _wieldingDist))
+            Debug.DrawRay(_head.position, _head.forward, Color.white, 1f);
+            if (Physics.Raycast(_head.position, _head.forward, out RaycastHit hit, _wieldingDist))
             {
-                Debug.Log("Hit!");
                 Pipe pipe = hit.collider.GetComponent<Pipe>();
                 if (pipe != null)
                 {
@@ -39,12 +38,12 @@ namespace BeneathTheSurface.Wielding
                     pipe.SetWieldingState(true);
                     _lastPipe = pipe;
                     GameObject decal = GameObject.Instantiate(_decalPrefab);
-                    decal.transform.position = hit.point + _head.forward * 0.1f;
-                    decal.transform.forward = -_head.forward;
+                    decal.transform.position = hit.point + -_head.forward * 0.1f;
+                    decal.transform.forward = _head.forward;
                     decal.transform.parent = hit.transform;
 
                     _sparkLight.gameObject.SetActive(true);
-                    _sparks.transform.parent.position = hit.point + _head.forward * 0.02f;
+                    _sparks.transform.parent.position = hit.point + -_head.forward * 0.02f;
                     var sparkEmission = _sparks.emission;
                     sparkEmission.rateOverTime = sparkEmissionRate;
                 }
