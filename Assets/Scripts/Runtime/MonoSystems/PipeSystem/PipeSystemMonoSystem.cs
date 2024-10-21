@@ -216,7 +216,7 @@ namespace BeneathTheSurface.MonoSystems
 
             for (int i = 0; i < _amountOfBreaks; i++)
             {
-                Vector3Int loc = locs.OrderByDescending(e => Vector3Int.Distance(e, _sectors.OrderBy(s => Vector3Int.Distance(s.pos, e)).First().pos) * Random.value).Where(e => GameManager.GetMonoSystem<IBuildingMonoSystem>().HasPipeAt(e) && _sectors.Where(s => s.pos == e).Count() == 0 && e != new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y))).First();
+                Vector3Int loc = locs.OrderByDescending(e => Mathf.Min(Vector3Int.Distance(e, _sectors.OrderBy(s => Vector3Int.Distance(s.pos, e)).First().pos), Vector3.Distance(e, new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y)))) * Random.value).Where(e => GameManager.GetMonoSystem<IBuildingMonoSystem>().HasPipeAt(e) && _sectors.Where(s => s.pos == e).Count() == 0 && e != new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y))).First();
 
                 Pipe pipe = GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(loc);
 
