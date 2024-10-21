@@ -1,15 +1,17 @@
+using System;
+using BeneathTheSurface.MonoSystems;
+using PlazmaGames.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace BeneathTheSurface.Player
 {
-	[RequireComponent(typeof(PlayerInput), typeof(CharacterController))]
+	[RequireComponent(typeof(PlayerInput))]
 	internal sealed class PlayerController : MonoBehaviour
 	{
 		[Header("References")]
         [SerializeField] private Inspector _inspector;
         [SerializeField] private PlayerSettings _playerSettings;
-		[SerializeField] private CharacterController _characterController;
 		[SerializeField] private PlayerInput _playerInput;
         //[SerializeField] private AudioSource _audioSource;
 
@@ -17,9 +19,12 @@ namespace BeneathTheSurface.Player
 		[SerializeField] private GameObject _head;
 
         [Header("Physics")]
+        [SerializeField] private float _underWaterGravityMultiplier = 3.0f;
         [SerializeField] private float _gravityMultiplier = 3.0f;
         private float _gravity = -9.81f;
 		private float _velY;
+        
+		private Rigidbody _rigidbody;
 
 		private InputAction _moveAction;
 		private InputAction _lookAction;
@@ -31,8 +36,22 @@ namespace BeneathTheSurface.Player
 		private Vector2 _rawMovementInput;
 		private Vector2 _rawViewInput;
 
-		private Vector3 _movementSpeed;
-		private Vector3 _movementSpeedVel;
+        private float _lastSwimTime;
+        [SerializeField] private float _swimLength = 2.0f;
+        [SerializeField] private float _swimStrength = 4.0f;
+        [SerializeField] private float _swimFriction = 0.04f;
+        private IOceanMonoSystem _oceanMonoSystem;
+        [SerializeField] private float _walkingFriction = 0.1f;
+
+        private bool CanSwim()
+        {
+            return Time.time - _lastSwimTime > _swimLength;
+        }
+
+        private void SetSwim()
+        {
+            _lastSwimTime = Time.time;
+        }
 
 		private void HandleMovementAction(InputAction.CallbackContext e)
 		{
@@ -44,25 +63,30 @@ namespace BeneathTheSurface.Player
 			_rawViewInput = e.ReadValue<Vector2>();
 		}
 
+		private void ProcessUnderwaterMovement()
+		{
+            _rigidbody.AddForce(_head.transform.right * (-1.0f * Vector3.Dot(_head.transform.right, _rigidbody.velocity)));
+            _rigidbody.AddForce(_head.transform.up * (-1.0f * Vector3.Dot(_head.transform.up, _rigidbody.velocity)));
+            _rigidbody.AddForce(Vector3.up * (_gravity * _underWaterGravityMultiplier));
+            _rigidbody.AddForce(_head.transform.forward * (-_swimFriction * Vector3.Dot(_head.transform.forward, _rigidbody.velocity)));
+            if (CanSwim() && _rawMovementInput.y > 0)
+            {
+                _rigidbody.AddForce(_head.transform.forward * _rawMovementInput.y * _swimStrength, ForceMode.Impulse);
+                SetSwim();
+            }
+		}
+        
 		private void ProcessMovement()
 		{
-			float verticalSpeed = (_rawMovementInput.y == 1) ? _playerSettings.walkingForwardSpeed : _playerSettings.walkingBackwardSpeed;
-			float horizontalSpeed = _playerSettings.walkingStrateSpeed;
-
-			verticalSpeed *= _playerSettings.speedEffector;
-			horizontalSpeed *= _playerSettings.speedEffector;
-
-			_movementSpeed = Vector3.SmoothDamp(
-				_movementSpeed,
-				new Vector3(-horizontalSpeed * _rawMovementInput.x * Time.deltaTime, 0, -verticalSpeed * _rawMovementInput.y * Time.deltaTime),
-				ref _movementSpeedVel,
-				_playerSettings.movementSmoothing
-			);
+            _rigidbody.AddForce(Vector3.up * (_gravity * _gravityMultiplier));
+            _rigidbody.AddForce(transform.forward * _rawMovementInput.y * _playerSettings.walkingForwardSpeed);
+            _rigidbody.AddForce(transform.right * _rawMovementInput.x * _playerSettings.walkingForwardSpeed);
+            _rigidbody.AddForce(new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z) * -_walkingFriction);
 		}
 
 		private void ProcessView()
 		{
-			_headRotation.x += ((_playerSettings.invertedViewY) ? 1 : -1) * _playerSettings.sensitivityY * _rawViewInput.y * Time.deltaTime;
+			_headRotation.x += ((_playerSettings.invertedViewY) ? -1 : 1) * _playerSettings.sensitivityY * _rawViewInput.y * Time.deltaTime;
 			_headRotation.x = Mathf.Clamp(_headRotation.x, _playerSettings.minViewY, _playerSettings.maxViewY);
 			_head.transform.localRotation = Quaternion.Euler(_headRotation);
 
@@ -70,13 +94,6 @@ namespace BeneathTheSurface.Player
 			transform.localRotation = Quaternion.Euler(_playerRotation);
 		}
 
-        private void ProcessGravity()
-        {
-			if (_characterController.isGrounded && _velY < 0.0f) _velY = -1.0f;
-			else _velY += _gravity * _gravityMultiplier * Time.deltaTime;
-			_movementSpeed.y = _velY;
-        }
-		
 		public void ZeroInput()
 		{
             _rawMovementInput = Vector2.zero;
@@ -85,12 +102,12 @@ namespace BeneathTheSurface.Player
 
         public void Disable()
         {
-            _characterController.enabled = false;
+            _rigidbody.isKinematic = true;
         }
 
         public void Enable()
         {
-            _characterController.enabled = true;
+            _rigidbody.isKinematic = false;
         }
 
         public void Rotate(float angle)
@@ -117,11 +134,16 @@ namespace BeneathTheSurface.Player
 
         private void Awake()
 		{
-			if (_playerSettings == null) _playerSettings = new PlayerSettings();
-			if (_characterController == null) _characterController = GetComponent<CharacterController>();
+            _oceanMonoSystem = GameManager.GetMonoSystem<IOceanMonoSystem>();
+            if (_playerSettings == null) _playerSettings = new PlayerSettings();
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
 			//if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
             if (_inspector == null) _inspector = GetComponent<Inspector>();
+            _rigidbody = GetComponent<Rigidbody>();
+            _rigidbody.maxLinearVelocity = float.MaxValue;
+            
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             _headRotation = _head.transform.localRotation.eulerAngles;
 
@@ -143,11 +165,8 @@ namespace BeneathTheSurface.Player
 			}
             else _playerInput.enabled = true;
             ProcessView();
-            ProcessMovement();
-            //if (_movementSpeed.magnitude < 0.01f) _audioSource.Stop();
-            //else if (!_audioSource.isPlaying) _audioSource.Play();
-            ProcessGravity();
-            _characterController.Move(transform.TransformDirection(_movementSpeed));
+            if (transform.position.y > _oceanMonoSystem.GetSeaLevel()) ProcessMovement();
+            else ProcessUnderwaterMovement();
         }
 	}
 }
