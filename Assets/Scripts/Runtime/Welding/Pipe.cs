@@ -15,6 +15,7 @@ namespace BeneathTheSurface.Wielding
     {
         [SerializeField] List<Transform> _connectionsLocations;
         [SerializeField] float _wieldTime;
+        [SerializeField] MeshRenderer _renderer;
 
         [SerializeField, ReadOnly] private Vector3Int _lastPosition;
         [SerializeField, ReadOnly]  private bool _isWielding = false;
@@ -42,10 +43,10 @@ namespace BeneathTheSurface.Wielding
             {
                 if (transform.position.x - t.position.x > 0) Connections.Add(_lastPosition + new Vector3Int(1, 0, 0));
                 else if (transform.position.x - t.position.x < 0) Connections.Add(_lastPosition + new Vector3Int(-1, 0, 0));
-                else if (transform.position.y - t.position.y > 0) Connections.Add(_lastPosition + new Vector3Int(0, 1, 0));
-                else if (transform.position.y - t.position.y < 0) Connections.Add(_lastPosition + new Vector3Int(0, -1, 0));
-                else if (transform.position.z - t.position.z > 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, 1));
-                else if (transform.position.z - t.position.z < 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, -1));
+                else if (transform.position.y - t.position.y > 0) Connections.Add(_lastPosition + new Vector3Int(0, -1, 0));
+                else if (transform.position.y - t.position.y < 0) Connections.Add(_lastPosition + new Vector3Int(0, 1, 0));
+                else if (transform.position.z - t.position.z > 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, -1));
+                else if (transform.position.z - t.position.z < 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, 1));
             }
         }
 
@@ -103,8 +104,8 @@ namespace BeneathTheSurface.Wielding
             if (_isWielding && HasConnection()) _wieldProgress += Time.deltaTime;
             if (!HasConnection()) _wieldProgress = 0;
 
-            if (HasConnection() && IsWielded()) GetComponent<MeshRenderer>().material.color = Color.green;
-            else GetComponent<MeshRenderer>().material.color = Color.red;
+            //if (HasConnection() && IsWielded()) _renderer.material.color = Color.green;
+            //else _renderer.material.color = Color.red;
         }
     }
 }
