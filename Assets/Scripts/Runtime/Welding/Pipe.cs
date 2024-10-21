@@ -104,8 +104,8 @@ namespace BeneathTheSurface.Wielding
             if (_isWielding && HasConnection()) _wieldProgress += Time.deltaTime;
             if (!HasConnection()) _wieldProgress = 0;
 
-            if (HasConnection() && IsWielded()) _renderer.material.color = Color.green;
-            else _renderer.material.color = Color.red;
+            //if (HasConnection() && IsWielded()) _renderer.material.color = Color.green;
+            //else _renderer.material.color = Color.red;
         }
     }
 }

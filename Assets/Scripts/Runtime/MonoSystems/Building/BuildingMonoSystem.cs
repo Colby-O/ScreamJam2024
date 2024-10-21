@@ -4,6 +4,7 @@ using PlazmaGames.Runtime.DataStructures;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using UnityEngine;
 
 namespace BeneathTheSurface.MonoSystems
@@ -11,11 +12,32 @@ namespace BeneathTheSurface.MonoSystems
     public class BuildingMonoSystem : MonoBehaviour, IBuildingMonoSystem
     {
         [SerializeField] private float _gridSize = 1;
-        [SerializeField] private SerializableDictionary<Vector3Int, Pipe> _pipes;
+        [SerializeField] private SerializableDictionary<Vector3Int, Pipe> _pipes = new();
+
+        public void SetPipeAt(Pipe pipe, Vector3Int pos)
+        {
+            if (_pipes.ContainsKey(pos)) _pipes[pos] = pipe;
+            else _pipes.Add(pos, pipe);
+        }
+
+        public List<Vector3Int> GetAllPipesLocations()
+        {
+            return _pipes.Keys.ToList();
+        }
 
         public float GetGridSize()
         {
             return _gridSize;
+        }
+
+        public Pipe GetPipeAt(Vector3Int pos)
+        {
+            return HasPipeAt(pos) ? _pipes[pos] : null;
+        }
+
+        public bool HasPipeAt(Vector3Int loc)
+        {
+            return _pipes.ContainsKey(loc);
         }
 
         public bool CheckConnectionState(Vector3Int cur, Vector3Int next)

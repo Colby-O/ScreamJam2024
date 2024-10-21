@@ -7,7 +7,7 @@ namespace BeneathTheSurface.MonoSystems
 {
     public interface IPipeSystemMonoSystem : IMonoSystem
     {
-
-        
+        public float GetHeight();
+        public int GetGridHeight();
     }
 }
