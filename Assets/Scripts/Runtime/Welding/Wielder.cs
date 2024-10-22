@@ -1,5 +1,7 @@
 using BeneathTheSurface.Player;
 using PlazmaGames.Attribute;
+using PlazmaGames.Audio;
+using PlazmaGames.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,18 +28,37 @@ namespace BeneathTheSurface.Wielding
         [SerializeField] private float _wieldingDist = 3f;
         [SerializeField, ReadOnly] private bool _wielderEnabled = false;
 
+        [Header("Audio")]
+        [SerializeField] private AudioSource _as;
+        [SerializeField] private AudioClip _onClip;
+        [SerializeField] private AudioClip _usingClip;
+        [SerializeField] private AudioClip _offClip;
+
         private Pipe _lastPipe = null;
+
+        private bool _isOn = false;
 
         private void CheckForHit()
         {
+            bool wasOn = _isOn;
+            _isOn = false;
             Debug.DrawRay(_head.position, _head.forward, Color.white, 1f);
             if (Physics.Raycast(_head.position, _head.forward, out RaycastHit hit, _wieldingDist))
             {
-                Debug.Log("Yo1: " + hit.transform.gameObject.name);
                 Pipe pipe = hit.collider.GetComponent<Pipe>();
-                Debug.Log("Yo2: " + pipe);
                 if (pipe != null)
                 {
+                    if (!wasOn)
+                    {
+                        _as.PlayOneShot(_onClip);
+                    }
+                    else if (!_as.isPlaying)
+                    {
+                        _as.clip = _usingClip;
+                        _as.loop = true;
+                        _as.Play();
+                    }
+                    _isOn = true;
                     if (_lastPipe != null && _lastPipe != pipe) _lastPipe.SetWieldingState(false);
                     pipe.SetWieldingState(true);
                     _lastPipe = pipe;
@@ -52,6 +73,17 @@ namespace BeneathTheSurface.Wielding
                     sparkEmission.rateOverTime = sparkEmissionRate;
                 }
             }
+
+            if (wasOn && !_isOn)
+            {
+                _as.Stop();
+                _as.PlayOneShot(_offClip);
+
+                if (_lastPipe != null) _lastPipe.SetWieldingState(false);
+                var sparkEmission = _sparks.emission;
+                sparkEmission.rateOverTime = 0;
+                _sparkLight.gameObject.SetActive(false);
+            }
         }
 
         private void Awake()
@@ -64,12 +96,20 @@ namespace BeneathTheSurface.Wielding
             _wielderEnabled = Mouse.current.leftButton.isPressed && _tools.CurrentTool() == Tool.Welder;
             if (!_wielderEnabled)
             {
+                if (_isOn)
+                {
+                    _as.Stop();
+                    _as.PlayOneShot(_offClip);
+                    _isOn = false;
+                }
+
                 if (_lastPipe != null) _lastPipe.SetWieldingState(false);
                 var sparkEmission = _sparks.emission;
                 sparkEmission.rateOverTime = 0;
                 _sparkLight.gameObject.SetActive(false);
                 return;
             }
+
             CheckForHit();
         }
     }

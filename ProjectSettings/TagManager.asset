@@ -6,6 +6,8 @@ TagManager:
   tags:
   - RainSystem
   - LightingSystem
+  - PipeT1
+  - PipeT2
   layers:
   - Default
   - TransparentFX

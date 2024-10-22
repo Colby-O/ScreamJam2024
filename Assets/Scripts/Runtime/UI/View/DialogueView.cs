@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BeneathTheSurface.MonoSystems
 {
@@ -13,10 +14,10 @@ namespace BeneathTheSurface.MonoSystems
         [SerializeField] private GameObject _dialoguetext;
         [SerializeField] private TMP_Text _dialogueBox;
         [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private GameObject _hint;
 
         [Header("Settings")]
         [SerializeField] private float _textSpeed = 1f;
-        [SerializeField] private float _delayBetweenTextBlocks = 2f;
         [SerializeField] private float _timeout = 3;
         [SerializeField] private bool _allowTextSkip = false;
         private bool _isWriting = false;
@@ -27,7 +28,7 @@ namespace BeneathTheSurface.MonoSystems
         IEnumerator TypeMessage(string msg)
         {
             _isWriting = true;
-            if (_audioSource != null) _audioSource.Play();
+            if (_audioSource != null && !_audioSource.isPlaying) _audioSource.Play();
             _dialogueBox.text = string.Empty;
             foreach (char c in msg)
             {
@@ -35,8 +36,8 @@ namespace BeneathTheSurface.MonoSystems
                 yield return new WaitForSeconds(_textSpeed);
             }
             if (_audioSource != null) _audioSource.Stop();
-            yield return new WaitForSeconds(_delayBetweenTextBlocks);
             _isWriting = false;
+            _hint.SetActive(true);
         }
 
         private void Next()
@@ -54,6 +55,7 @@ namespace BeneathTheSurface.MonoSystems
         public void Clear()
         {
             _dialogueBox.text = " ";
+            _hint.SetActive(false);
         }
 
         public override void Show()
@@ -70,7 +72,7 @@ namespace BeneathTheSurface.MonoSystems
 
         public override void Init()
         {
-
+            _hint.SetActive(false);
         }
 
         private void Update()
@@ -79,7 +81,9 @@ namespace BeneathTheSurface.MonoSystems
                 _timeSinceDialogueStarted += Time.deltaTime;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !_isWriting) Next(); 
+            if (Keyboard.current[Key.Space].wasPressedThisFrame && (!_isWriting || _allowTextSkip)) Next();
+
+            _timeSinceDialogueStarted += Time.deltaTime;
 
             if (_timeSinceDialogueStarted > _timeout) 
             {

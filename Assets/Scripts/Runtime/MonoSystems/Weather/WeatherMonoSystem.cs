@@ -1,3 +1,4 @@
+using PlazmaGames.Attribute;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using System.Collections;
@@ -29,19 +30,23 @@ namespace BeneathTheSurface.MonoSystems
 
         private bool _thunderAwiting = false;
 
-        private bool _isStormy = true;
+        [SerializeField, ReadOnly] private bool _isStormy = true;
+        [SerializeField, ReadOnly] private bool _isIndoors = false;
 
         public void SetWeatherState(bool isStormy, bool isIndoors)
         {
             _isStormy = isStormy;
-            GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Sfx);
+            if (isIndoors == _isIndoors) return;
+            GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
+            _isIndoors = isIndoors;
+
             if (isStormy && isIndoors)
             {
-                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_rainIndoorClip, PlazmaGames.Audio.AudioType.Sfx, true, true);
+                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_rainIndoorClip, PlazmaGames.Audio.AudioType.Ambient, true, true);
             }
             else if (isStormy && !isIndoors) 
             {
-                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_rainOutdoorClip, PlazmaGames.Audio.AudioType.Sfx, true, true);
+                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_rainOutdoorClip, PlazmaGames.Audio.AudioType.Ambient, true, true);
             }
         }
 

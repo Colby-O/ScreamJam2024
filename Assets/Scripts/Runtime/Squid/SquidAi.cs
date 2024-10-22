@@ -139,7 +139,6 @@ namespace BeneathTheSurface
                 Debug.Log("RANDOM");
                 RandomMove();
             }
-            _test.transform.position = _target;
         }
         
         private void KillPlayer()
@@ -164,7 +163,6 @@ namespace BeneathTheSurface
 
 
         private bool _swimTrigger = false;
-        [SerializeField] private GameObject _test;
         private bool _attacking = false;
         private float _attackRotationProgress = 0.0f;
 

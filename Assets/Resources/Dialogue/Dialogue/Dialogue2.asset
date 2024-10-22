@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
+  m_Name: Dialogue2
+  m_EditorClassIdentifier: 
+  id: 1
+  includeInDatabase: 1
+  _dialogues:
+  - msg:
+      list:
+      - Key: 0
+        Value: "I see you\u2019ve located your equipment. Now, head over to the pipes
+          on the other side of the room, and we\u2019ll give you a quick refresher
+          on our welding standards."
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  order: 2

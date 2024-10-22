@@ -1,13 +1,13 @@
+using BeneathTheSurface.Events;
 using BeneathTheSurface.Helpers;
 using BeneathTheSurface.Wielding;
 using PlazmaGames.Core;
+using PlazmaGames.Core.Events;
 using PlazmaGames.ProGen.Sampling;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Timeline;
-using static UnityEditor.PlayerSettings;
 
 namespace BeneathTheSurface.MonoSystems
 {
@@ -53,8 +53,20 @@ namespace BeneathTheSurface.MonoSystems
             new Vector2Int(-1, 0)
         };
 
+        private static readonly Vector3Int[] DIRECTIONS3D = new[]
+{
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(1, 0, 0),
+            new Vector3Int(0, -1, 0),
+            new Vector3Int(-1, 0, 0),
+            new Vector3Int(0, 0, 1),
+            new Vector3Int(0, 0, -1)
+        };
+
         private float GridSize => GameManager.GetMonoSystem<IBuildingMonoSystem>().GetGridSize();
         private int Height => GameManager.GetMonoSystem<IPipeSystemMonoSystem>().GetGridHeight();
+
+        private bool _tutorialDone = false;
 
         public void CheckConnections()
         {
@@ -82,6 +94,36 @@ namespace BeneathTheSurface.MonoSystems
                     }
                 }
             }
+        }
+
+        public bool CheckTutorialConnections()
+        {
+
+            Pipe t1 = GameObject.FindWithTag("PipeT1").GetComponent<Pipe>();
+            Pipe t2 = GameObject.FindWithTag("PipeT2").GetComponent<Pipe>();
+
+            Stack<Vector3Int> positions = new Stack<Vector3Int>();
+            List<Vector3Int> visted = new List<Vector3Int>();
+            positions.Push(t1.GetGridPosition());
+            visted.Add(t1.GetGridPosition());
+            while (positions.Count > 0)
+            {
+                Vector3Int cur = positions.Pop();
+
+                foreach (Vector3Int dir in DIRECTIONS3D)
+                {
+                    Vector3Int next = cur + dir;
+                    if (GameManager.GetMonoSystem<IBuildingMonoSystem>().HasPipeAt(next) && GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(next).IsWielded() && !visted.Contains(next))
+                    {
+                        positions.Push(next);
+                        visted.Add(next);
+
+                        if (next == t2.GetGridPosition()) return true && BeneathTheSurfaceGameManager.eventProgresss == 3;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private Pipe InstantiatePipePrefab(Pipe obj, float y)
@@ -210,6 +252,17 @@ namespace BeneathTheSurface.MonoSystems
                 Vector3 position = new Vector3(loc.x, loc.y, loc.z) * GridSize;
 
                 Pipe pipeObject = Instantiate(pipe, position, pipe.transform.rotation);
+                pipeObject.SetWeldedState(true);
+
+                if (_sectorLocations.Where(e => new Vector3Int(Mathf.FloorToInt(e.x / GridSize), Height, Mathf.FloorToInt(e.y / GridSize)) == loc).Count() > 0 || new Vector3Int(Mathf.FloorToInt(_masterSector.x / GridSize), Height, Mathf.FloorToInt(_masterSector.y / GridSize)) == loc)
+                {
+                    pipeObject.SetExemptState(true);
+                }
+                else
+                {
+                    pipeObject.SetExemptState(false);
+                }
+
                 pipeObject.gameObject.SetActive(true);
                 GameManager.GetMonoSystem<IBuildingMonoSystem>().SetPipeAt(pipeObject, loc);
             }
@@ -219,6 +272,8 @@ namespace BeneathTheSurface.MonoSystems
                 Vector3Int loc = locs.OrderByDescending(e => Mathf.Min(Vector3Int.Distance(e, _sectors.OrderBy(s => Vector3Int.Distance(s.pos, e)).First().pos), Vector3.Distance(e, new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y)))) * Random.value).Where(e => GameManager.GetMonoSystem<IBuildingMonoSystem>().HasPipeAt(e) && _sectors.Where(s => s.pos == e).Count() == 0 && e != new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y))).First();
 
                 Pipe pipe = GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(loc);
+
+                pipe.SetWeldedState(false);
 
                 Vector3Int newPos = new Vector3Int(loc.x + Random.Range(-_borkenRange, _borkenRange), loc.y, loc.z + Random.Range(-_borkenRange, _borkenRange));
 
@@ -235,6 +290,7 @@ namespace BeneathTheSurface.MonoSystems
 
         private void Awake()
         {
+            _tutorialDone = false;
             _sectors = new List<Sector>();
             GeneratePipeVarients();
             SpawnSectors();
@@ -246,6 +302,11 @@ namespace BeneathTheSurface.MonoSystems
 
         private void Update()
         {
+            if (!_tutorialDone)
+            {
+                _tutorialDone = CheckTutorialConnections();
+                if (_tutorialDone) GameManager.EmitEvent(new BSEvents.FinishedPipeTutorial());
+            }
             CheckConnections();
         }
     }

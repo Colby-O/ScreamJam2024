@@ -39,7 +39,7 @@ namespace BeneathTheSurface
         public static PlayerController player;
 
         public static Languages language;
-        
+        public static int eventProgresss = 0;
         public static DialogueDatabase DialogueDB => ((BeneathTheSurfaceGameManager)_instance)._dialogueDB;
 
 
@@ -81,6 +81,9 @@ namespace BeneathTheSurface
             AddEventListener<BSEvents.Pause>(UIGameEvents.PauseResponse);
 
             AddEventListener<BSEvents.StartGame>(GenericGameEvents.StartResponse);
+            AddEventListener<BSEvents.ItemsFeteched>(GenericGameEvents.ItemsFetchedResponse);
+            AddEventListener<BSEvents.PipeTutorial>(GenericGameEvents.PipeTutorialResponse);
+            AddEventListener<BSEvents.FinishedPipeTutorial>(GenericGameEvents.FinishedPipeTutorialResponse);
             AddEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
@@ -91,6 +94,9 @@ namespace BeneathTheSurface
             RemoveEventListener<BSEvents.Pause>(UIGameEvents.PauseResponse);
 
             RemoveEventListener<BSEvents.StartGame>(GenericGameEvents.StartResponse);
+            RemoveEventListener<BSEvents.ItemsFeteched>(GenericGameEvents.ItemsFetchedResponse);
+            RemoveEventListener<BSEvents.PipeTutorial>(GenericGameEvents.PipeTutorialResponse);
+            RemoveEventListener<BSEvents.FinishedPipeTutorial>(GenericGameEvents.FinishedPipeTutorialResponse);
             RemoveEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 

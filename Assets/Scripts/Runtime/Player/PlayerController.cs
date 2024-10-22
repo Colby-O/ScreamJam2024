@@ -41,6 +41,7 @@ namespace BeneathTheSurface.Player
 		private Transform _squid;
 
         private bool _inDeathScene = false;
+        private bool _isIndoors = false;
 
         private float _lastSwimTime;
         [SerializeField] private float _swimLength = 2.0f;
@@ -153,6 +154,13 @@ namespace BeneathTheSurface.Player
 			Debug.Log(collision.gameObject.name);
         }
 
+        private void CheckIfIndoors()
+        {
+            if (!BeneathTheSurfaceGameManager.allowInput) return;
+            _isIndoors = Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 20f, ~gameObject.layer);
+            GameManager.GetMonoSystem<IWeatherMonoSystem>().SetWeatherState(true, _isIndoors);
+        }
+
         private void Awake()
 		{
             _squid = FindObjectOfType<SquidAi>().transform;
@@ -177,6 +185,8 @@ namespace BeneathTheSurface.Player
 
 		private void Update()
 		{
+            CheckIfIndoors();
+
             if (_inDeathScene)
             {
                 _head.transform.LookAt(_squid);

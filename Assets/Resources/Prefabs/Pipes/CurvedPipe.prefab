@@ -53,6 +53,9 @@ MonoBehaviour:
   offsetPoint: {fileID: 0}
   _auidoSource: {fileID: 0}
   _auidoclip: {fileID: 0}
+  _meshRenderer: {fileID: 6686378067166297651}
+  _outlineColor: {r: 0, g: 13.704945, b: 16, a: 0}
+  _outlineScale: 1.03
   allowInteract: 1
 --- !u!114 &107165773484393013
 MonoBehaviour:
@@ -71,6 +74,9 @@ MonoBehaviour:
   - {fileID: 4521922216947177889}
   _wieldTime: 5
   _renderer: {fileID: 6686378067166297651}
+  _isWelded: 0
+  _exemptFromConnection: 0
+  _needConnectionOutlineColor: {r: 64, g: 0, b: 0, a: 0}
   _lastPosition: {x: 0, y: 0, z: 0}
   _isWielding: 0
   _wieldProgress: 0
@@ -218,9 +224,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 37444497635f2a1469f40404ae849b42,
         type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 37444497635f2a1469f40404ae849b42,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ab8042e7184b472469e9f19717b7bd26, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 37444497635f2a1469f40404ae849b42,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 88400d157e7fdbb4faaa23a8319ed37d, type: 2}
     - target: {fileID: 919132149155446097, guid: 37444497635f2a1469f40404ae849b42,
         type: 3}
       propertyPath: m_Name

@@ -8,8 +8,6 @@ namespace BeneathTheSurface
 {
     public class MoveableObject : InspectableObject
     {
-        public bool allowInteract = false;
-
         public override bool Interact(Interactor interactor)
         {
             if (!allowInteract) return false;

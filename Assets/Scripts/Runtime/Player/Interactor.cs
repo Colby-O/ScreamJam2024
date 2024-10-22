@@ -1,6 +1,10 @@
+using BeneathTheSurface.Inspectables;
 using BeneathTheSurface.Interfaces;
+using PlazmaGames.Core;
+using PlazmaGames.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +16,7 @@ namespace BeneathTheSurface.Player
 		[Header("References")]
 		[SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Transform _playerhead;
+        [SerializeField] private ToolController _tools;
 
         [SerializeField] private Transform _interactionPoint;
 		[SerializeField] private LayerMask _interactionLayer;
@@ -25,28 +30,41 @@ namespace BeneathTheSurface.Player
 		{
 			interactable.Interact(this);
 		}
-        private void StartPickup(IInteractable interactable)
-        {
-            interactable.OnPickup(this);
-        }
 
         private void CheckForInteractionInteract()
 		{
-			Debug.DrawRay(_playerhead.position, (_interactionPoint.position - _playerhead.position).normalized, Color.red, 10000f);
-			if (Physics.SphereCast(_playerhead.position, _spehreCastRadius, (_interactionPoint.position - _playerhead.position).normalized, out RaycastHit hit, _interactionRadius, _interactionLayer))
+            if (_tools.CurrentTool() != Tool.Hands) return;
+            Debug.DrawRay(_playerhead.position, (_interactionPoint.position - _playerhead.position).normalized, Color.red, 10000f);
+			if 
+            (
+                Physics.Raycast(_playerhead.position, (_interactionPoint.position - _playerhead.position).normalized, out RaycastHit hit, _interactionRadius, _interactionLayer) ||
+                Physics.SphereCast(_playerhead.position, _spehreCastRadius, (_interactionPoint.position - _playerhead.position).normalized, out hit, _interactionRadius, _interactionLayer)
+            )
 			{
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                 if (interactable != null) StartInteraction(interactable);
             }
 		}
 
-        private void CheckForInteractionPickup()
+        private void CheckForPossibleInteractionInteract()
         {
-            Debug.DrawRay(_playerhead.position, (_interactionPoint.position - _playerhead.position).normalized, Color.red, 10000f);
-            if (Physics.SphereCast(_playerhead.position, _spehreCastRadius, (_interactionPoint.position - _playerhead.position).normalized, out RaycastHit hit, _interactionRadius, _interactionLayer))
+            GameView gv = GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentView<GameView>();
+            if (gv == null) return;
+            gv.ToggleAid(false);
+            if (_tools.CurrentTool() != Tool.Hands) return;
+            if 
+            (
+                Physics.Raycast(_playerhead.position, (_interactionPoint.position - _playerhead.position).normalized, out RaycastHit hit, _interactionRadius, _interactionLayer) ||
+                Physics.SphereCast(_playerhead.position, _spehreCastRadius, (_interactionPoint.position - _playerhead.position).normalized, out hit, _interactionRadius, _interactionLayer))
             {
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                if (interactable != null && interactable.IsPickupable()) StartPickup(interactable);
+                if (interactable != null)
+                {
+                    InspectableObject inspec = hit.collider.GetComponent<InspectableObject>();
+                    if (!inspec.allowInteract) return;
+                    gv.ToggleAid(true);
+                    inspec.AddOutline();
+                }
             }
         }
 
@@ -56,21 +74,19 @@ namespace BeneathTheSurface.Player
             CheckForInteractionInteract();
 		}
 
-        private void Pickup(InputAction.CallbackContext e)
-        {
-            if (!BeneathTheSurfaceGameManager.allowInput) return;
-            CheckForInteractionPickup();
-        }
-
         private void Awake()
 		{
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
+            if (_tools == null) _tools = GetComponent<ToolController>();
 
             _interactAction = _playerInput.actions["Interact"];
-            //_pickupAction = _playerInput.actions["Pickup"];
 
             _interactAction.performed += Interact;
-			//_pickupAction.performed += Pickup;
 		}
-	}
+
+        private void LateUpdate()
+        {
+            CheckForPossibleInteractionInteract();
+        }
+    }
 }

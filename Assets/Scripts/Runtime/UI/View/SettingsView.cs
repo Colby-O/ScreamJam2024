@@ -56,6 +56,7 @@ namespace BeneathTheSurface.UI
         private void SfX(float val)
         {
             GameManager.GetMonoSystem<IAudioMonoSystem>().SetSfXVolume(val);
+            GameManager.GetMonoSystem<IAudioMonoSystem>().SetAmbientVolume(val);
         }
 
         private void Music(float val)

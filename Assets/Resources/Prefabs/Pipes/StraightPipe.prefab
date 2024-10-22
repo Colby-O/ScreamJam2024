@@ -75,6 +75,9 @@ MonoBehaviour:
   - {fileID: 7597175258052564906}
   _wieldTime: 5
   _renderer: {fileID: 7931615400897286050}
+  _isWelded: 0
+  _exemptFromConnection: 0
+  _needConnectionOutlineColor: {r: 64, g: 0, b: 0, a: 0}
   _lastPosition: {x: 0, y: 0, z: 0}
   _isWielding: 0
   _wieldProgress: 0
@@ -95,6 +98,9 @@ MonoBehaviour:
   offsetPoint: {fileID: 0}
   _auidoSource: {fileID: 0}
   _auidoclip: {fileID: 0}
+  _meshRenderer: {fileID: 7931615400897286050}
+  _outlineColor: {r: 0, g: 13.704945, b: 16, a: 0}
+  _outlineScale: 1.03
   allowInteract: 1
 --- !u!1 &2612852497808593042
 GameObject:
@@ -216,6 +222,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ef34b49e5bcb1ee448da8c807647b662,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ef34b49e5bcb1ee448da8c807647b662,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 88400d157e7fdbb4faaa23a8319ed37d, type: 2}
     - target: {fileID: 919132149155446097, guid: ef34b49e5bcb1ee448da8c807647b662,
         type: 3}
       propertyPath: m_Name
