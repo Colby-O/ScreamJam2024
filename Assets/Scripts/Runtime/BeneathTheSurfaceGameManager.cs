@@ -1,5 +1,6 @@
 using BeneathTheSurface.Events;
 using BeneathTheSurface.MonoSystems;
+using BeneathTheSurface.Player;
 using PlazmaGames.Animation;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
@@ -10,10 +11,19 @@ using UnityEngine;
 
 namespace BeneathTheSurface
 {
+    public enum Languages
+    {
+        EN,
+        FR
+    }
+
     public class BeneathTheSurfaceGameManager : GameManager
     {
         [Header("Holders")]
         [SerializeField] private GameObject _monoSystemParnet;
+
+        [Header("Databases")]
+        [SerializeField] private DialogueDatabase _dialogueDB;
 
         [Header("MonoSystems")]
         [SerializeField] private UIMonoSystem _uiMonoSystem;
@@ -23,8 +33,15 @@ namespace BeneathTheSurface
         [SerializeField] private BuildingMonoSystem _buildingMonoSystem;
         [SerializeField] private PipeSystemMonoSystem _pipeSystemMonoSystem;
         [SerializeField] private WeatherMonoSystem _weatherMonoSystem;
+        [SerializeField] private DialogueMonoSystem _dialogueMonoSystem;
 
         public static bool allowInput = true;
+        public static PlayerController player;
+
+        public static Languages language;
+        
+        public static DialogueDatabase DialogueDB => ((BeneathTheSurfaceGameManager)_instance)._dialogueDB;
+
 
         /// <summary>
         /// Adds all events listeners
@@ -54,6 +71,7 @@ namespace BeneathTheSurface
             AddMonoSystem<BuildingMonoSystem, IBuildingMonoSystem>(_buildingMonoSystem);
             AddMonoSystem<PipeSystemMonoSystem, IPipeSystemMonoSystem>(_pipeSystemMonoSystem);
             AddMonoSystem<WeatherMonoSystem, IWeatherMonoSystem>(_weatherMonoSystem);
+            AddMonoSystem<DialogueMonoSystem, IDialogueMonoSystem>(_dialogueMonoSystem);
         }
 
         private void AddEvents()
@@ -62,6 +80,7 @@ namespace BeneathTheSurface
             AddEventListener<BSEvents.CloseMenu>(UIGameEvents.CloseMenuResponse);
             AddEventListener<BSEvents.Pause>(UIGameEvents.PauseResponse);
 
+            AddEventListener<BSEvents.StartGame>(GenericGameEvents.StartResponse);
             AddEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
@@ -71,6 +90,7 @@ namespace BeneathTheSurface
             RemoveEventListener<BSEvents.CloseMenu>(UIGameEvents.CloseMenuResponse);
             RemoveEventListener<BSEvents.Pause>(UIGameEvents.PauseResponse);
 
+            RemoveEventListener<BSEvents.StartGame>(GenericGameEvents.StartResponse);
             RemoveEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
@@ -101,7 +121,7 @@ namespace BeneathTheSurface
 
         private void Start()
         {
-
+            player = FindObjectOfType<PlayerController>();
         }
 
         public override string GetApplicationVersion()

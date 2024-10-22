@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
+  m_Name: Dialogue1
+  m_EditorClassIdentifier: 
+  id: 0
+  includeInDatabase: 1
+  _dialogues:
+  - msg:
+      list:
+      - Key: 0
+        Value: 'Hello, Diver 16. This is Henry from the management team at Abyssal
+          Drilling Co. Due to strong winds, our piping system has sustained severe
+          damage, and Diver Team Omega is currently unresponsive. We need you to
+          begin your rotation early to address the issue. '
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: As we like to say here at Abyssal Drilling, every milliliter of oil
+          lost is a dollar and seventy six cents out of our pockets.
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: You'll find your equipment on your desk. Please collect it as soon
+          as possible
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: 34070d34aeeaf934cb900cbf7fa77376, type: 2}
+  order: 1

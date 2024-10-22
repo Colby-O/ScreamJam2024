@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BeneathTheSurface.Player
 {
     [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Player/Settings")]
-    internal sealed class PlayerSettings : ScriptableObject
+    public sealed class PlayerSettings : ScriptableObject
     {
         [Header("View Settings")]
         public float sensitivityMax;

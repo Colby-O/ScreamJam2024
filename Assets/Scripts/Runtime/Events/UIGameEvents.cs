@@ -4,6 +4,7 @@ using PlazmaGames.Core.Debugging;
 using PlazmaGames.UI;
 using PlazmaGames.UI.Views;
 using UnityEngine;
+using BeneathTheSurface.UI;
 
 namespace BeneathTheSurface.Events
 {
@@ -42,26 +43,27 @@ namespace BeneathTheSurface.Events
 
         private static void PauseEvent(Component _, object raw)
         {
-            //bool hidePreviousView = true;
+            bool hidePreviousView = true;
 
-            //if (raw != null && raw is BSEvents.Pause)
-            //{
-            //    BSEvents.Pause data = raw as BSEvents.Pause;
-            //    hidePreviousView = data.HidePreviousView;
-            //}
+            if (raw != null && raw is BSEvents.Pause)
+            {
+                BSEvents.Pause data = raw as BSEvents.Pause;
+                hidePreviousView = data.HidePreviousView;
+            }
 
-            //if (
-            //    GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<PauseMenuView>() ||
-            //    GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<SettingsView>() ||
-            //    GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<DeveloperConsoleView>()
-            //)
-            //{
-            //    GameManager.GetMonoSystem<IUIMonoSystem>().ShowLast();
-            //}
-            //else if (!GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<MainMenuView>())
-            //{
-            //    GameManager.GetMonoSystem<IUIMonoSystem>().Show<PauseMenuView>(true, hidePreviousView);
-            //}
+            if (
+                GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<PauseMenuView>() ||
+                GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<SettingsView>()
+            )
+            {
+                if (GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<PauseMenuView>()) BeneathTheSurfaceGameManager.allowInput = true;
+                GameManager.GetMonoSystem<IUIMonoSystem>().ShowLast();
+            }
+            else if (!GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<MainMenuView>())
+            {
+                BeneathTheSurfaceGameManager.allowInput = false;
+                GameManager.GetMonoSystem<IUIMonoSystem>().Show<PauseMenuView>(true, hidePreviousView);
+            }
         }
 
         private static void OpenMenuEvent(Component _, object raw)

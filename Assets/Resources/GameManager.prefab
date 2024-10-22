@@ -220,6 +220,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df4f200d6311caf4aaaab927e9b55bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2478348725720780366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 913270230753332476}
+  - component: {fileID: 8886511979505366121}
+  m_Layer: 0
+  m_Name: DialogueMonoSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &913270230753332476
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478348725720780366}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7931701935537963834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8886511979505366121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478348725720780366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7bf2188b28ed8b4798447573dc1fd3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2746550955800425124
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +504,10 @@ MonoBehaviour:
   _musicSound: 1
   _musicSounds: []
   _ambientSounds: []
-  _sfxSounds: []
+  _sfxSounds:
+  - id: 0
+    name: alarm
+    audio: {fileID: 8300000, guid: f97e73ef6198c0542b5c8309ac034fd8, type: 3}
   _musicSource: {fileID: 1411529205688699613}
   _ambientSource: {fileID: 5653515297908743381}
   _sfxMainSource: {fileID: 7750095110259915948}
@@ -688,6 +735,7 @@ MonoBehaviour:
   _debug: 0
   _verbose: 2
   _monoSystemParnet: {fileID: 8483033348767625753}
+  _dialogueDB: {fileID: 11400000, guid: fe6e26e0e7b1bcf43bbd74d312137e8a, type: 2}
   _uiMonoSystem: {fileID: 8767861798589504059}
   _animationMonoSystem: {fileID: 7640784539191171850}
   _audioMonoSystem: {fileID: 5883110773576070692}
@@ -695,6 +743,7 @@ MonoBehaviour:
   _buildingMonoSystem: {fileID: 2543696979018234724}
   _pipeSystemMonoSystem: {fileID: 7375121446495520466}
   _weatherMonoSystem: {fileID: 524739414354283511}
+  _dialogueMonoSystem: {fileID: 8886511979505366121}
 --- !u!1 &7084753780118097588
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,5 +890,6 @@ Transform:
   - {fileID: 229478688018125385}
   - {fileID: 1589234237442395571}
   - {fileID: 5151307285429828150}
+  - {fileID: 913270230753332476}
   m_Father: {fileID: 8920023617761395784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

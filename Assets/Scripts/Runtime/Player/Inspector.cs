@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using BeneathTheSurface.Inspectables;
+using UnityEditor;
 
 namespace BeneathTheSurface.Player
 {
@@ -15,6 +16,7 @@ namespace BeneathTheSurface.Player
 		[SerializeField] private GameObject _offset;
 		[SerializeField] private PlayerController _controller;
 		[SerializeField] private GameObject _head;
+        [SerializeField] private ToolController _tools;
 
         private Vector3 _lastMousePosition;
 		private Transform _examinedObject;
@@ -44,7 +46,7 @@ namespace BeneathTheSurface.Player
 
         public void StartExamine(Transform obj, ExamineType type, GameObject offset, string text = "", bool isMoveable = false)
 		{
-			if (obj == null && !_isExaming) return;
+			if (obj == null && !_isExaming || _tools.CurrentTool() != Tool.Hands) return;
 
             _firstLoop = true;
 
@@ -202,7 +204,11 @@ namespace BeneathTheSurface.Player
 		{
             if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
 			if (_controller == null) _controller = GetComponent<PlayerController>();
-		}
+			if (_tools == null) _tools = GetComponent<ToolController>();
+            {
+                
+            }
+        }
 
 		private void Update()
 		{

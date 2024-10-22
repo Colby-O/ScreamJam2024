@@ -1,4 +1,5 @@
 using System;
+using BeneathTheSurface.Events;
 using BeneathTheSurface.MonoSystems;
 using PlazmaGames.Core;
 using UnityEngine;
@@ -7,12 +8,13 @@ using UnityEngine.InputSystem;
 namespace BeneathTheSurface.Player
 {
 	[RequireComponent(typeof(PlayerInput))]
-	internal sealed class PlayerController : MonoBehaviour
+	public sealed class PlayerController : MonoBehaviour
 	{
 		[Header("References")]
         [SerializeField] private Inspector _inspector;
         [SerializeField] private PlayerSettings _playerSettings;
 		[SerializeField] private PlayerInput _playerInput;
+        [SerializeField] private GameObject _screenCover;
         //[SerializeField] private AudioSource _audioSource;
 
         [Header("Body Part References")]
@@ -42,6 +44,16 @@ namespace BeneathTheSurface.Player
         [SerializeField] private float _swimFriction = 0.04f;
         private IOceanMonoSystem _oceanMonoSystem;
         [SerializeField] private float _walkingFriction = 0.1f;
+
+        public void CoverScreen()
+        {
+            _screenCover.SetActive(true);
+        }
+
+        public void UncoverScreen()
+        {
+            _screenCover.SetActive(false);
+        }
 
         private bool CanSwim()
         {
@@ -122,9 +134,8 @@ namespace BeneathTheSurface.Player
 
         private void HandlePuase(InputAction.CallbackContext e)
 		{
-			if (!BeneathTheSurfaceGameManager.allowInput || _inspector.IsExaming) return;
-            BeneathTheSurfaceGameManager.allowInput = false;
-			//GameManager.GetMonoSystem<IUIMonoSystem>().Show<PausedView>();
+            if (_inspector.IsExaming) return;
+			GameManager.EmitEvent(new BSEvents.Pause());
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -146,11 +157,11 @@ namespace BeneathTheSurface.Player
 
 			_moveAction = _playerInput.actions["Movement"];
 			_lookAction = _playerInput.actions["Look"];
-            //_pauseAction = _playerInput.actions["Esc"];
+            _pauseAction = _playerInput.actions["Esc"];
 
             _moveAction.performed += HandleMovementAction;
 			_lookAction.performed += HandleLookAction;
-			//_pauseAction.performed += HandlePuase;
+			_pauseAction.performed += HandlePuase;
         }
 
 		private void Update()

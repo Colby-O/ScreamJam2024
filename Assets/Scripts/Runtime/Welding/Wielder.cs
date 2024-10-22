@@ -1,3 +1,4 @@
+using BeneathTheSurface.Player;
 using PlazmaGames.Attribute;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace BeneathTheSurface.Wielding
     {
         [Header("References")]
         [SerializeField] private Transform _head;
+        [SerializeField] private ToolController _tools;
 
         [Header("Sparks")]
         [SerializeField] private ParticleSystem _sparks;
@@ -31,7 +33,9 @@ namespace BeneathTheSurface.Wielding
             Debug.DrawRay(_head.position, _head.forward, Color.white, 1f);
             if (Physics.Raycast(_head.position, _head.forward, out RaycastHit hit, _wieldingDist))
             {
+                Debug.Log("Yo1: " + hit.transform.gameObject.name);
                 Pipe pipe = hit.collider.GetComponent<Pipe>();
+                Debug.Log("Yo2: " + pipe);
                 if (pipe != null)
                 {
                     if (_lastPipe != null && _lastPipe != pipe) _lastPipe.SetWieldingState(false);
@@ -50,9 +54,14 @@ namespace BeneathTheSurface.Wielding
             }
         }
 
+        private void Awake()
+        {
+            if (_tools == null) _tools = GetComponent<ToolController>();
+        }
+
         private void Update()
         {
-            _wielderEnabled = Mouse.current.leftButton.isPressed;
+            _wielderEnabled = Mouse.current.leftButton.isPressed && _tools.CurrentTool() == Tool.Welder;
             if (!_wielderEnabled)
             {
                 if (_lastPipe != null) _lastPipe.SetWieldingState(false);

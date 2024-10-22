@@ -115,7 +115,8 @@ MonoBehaviour:
   - {fileID: -1878332245247344467}
   - {fileID: -8676109407435909611}
   - {fileID: -7492429994919308745}
-  m_RendererFeatureMap: adc0de57c6d2eee515965b417644988737525ac09d8a0598
+  - {fileID: 163641065719526325}
+  m_RendererFeatureMap: adc0de57c6d2eee515965b417644988737525ac09d8a0598b5f3e0a8ae5e4502
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -158,3 +159,18 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &163641065719526325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74bfa7927ad5dc2488c736c7b914c347, type: 3}
+  m_Name: Blur
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  _shader: {fileID: 4800000, guid: b4a1384139988ae488ebd1803257f6ae, type: 3}
+  _injectionPoint: 550
