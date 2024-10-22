@@ -60,10 +60,9 @@ namespace BeneathTheSurface.Player
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
-                    InspectableObject inspec = hit.collider.GetComponent<InspectableObject>();
-                    if (!inspec.allowInteract) return;
+                    if (!interactable.IsInteractable()) return;
                     gv.ToggleAid(true);
-                    inspec.AddOutline();
+                    interactable.AddOutline();
                 }
             }
         }

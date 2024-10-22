@@ -8,6 +8,12 @@ namespace BeneathTheSurface.Interfaces
 {
     public interface IInteractable 
     {
+        public void AddOutline();
+
+        public void RemoveOutline();
+
+        public bool IsInteractable();
+
         public bool IsPickupable();
 
         public void OnPickup(Interactor interactor);

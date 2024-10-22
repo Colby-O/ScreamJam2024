@@ -6,16 +6,16 @@ namespace BeneathTheSurface
 {
     public class DiveBellController : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        [SerializeField] private GameObject _door;
+        [SerializeField] private GameObject _hatch;
+
+        [SerializeField] private float _doorOpenRot = 90f;
+        [SerializeField] private float _hatchOpenRot = 90f;
+
+        public void Decend()
         {
-        
+            Debug.Log("Decending");
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

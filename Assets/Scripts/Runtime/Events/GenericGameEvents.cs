@@ -1,12 +1,17 @@
 using BeneathTheSurface.MonoSystems;
+using BeneathTheSurface.UI;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using PlazmaGames.Core.Events;
+using PlazmaGames.Core.Utils;
+using PlazmaGames.Rendering.CRT;
 using PlazmaGames.UI;
+using PsychoSerum.Interactables;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace BeneathTheSurface.Events
 {
@@ -18,6 +23,8 @@ namespace BeneathTheSurface.Events
         private static EventResponse _pipeTutorialResponse;
         private static EventResponse _finishedPipeTutorialResponse;
         private static EventResponse _allItemsTestedResponse;
+        private static EventResponse _enterDivingBellResponse;
+        private static EventResponse _startDescentResponse;
 
         public static EventResponse QuitResponse { 
             get { 
@@ -69,6 +76,23 @@ namespace BeneathTheSurface.Events
                 return _allItemsTestedResponse;
             }
         }
+        public static EventResponse EnterDivingBellResponse
+        {
+            get
+            {
+                _enterDivingBellResponse ??= new EventResponse(EnterDivingBellEvent);
+                return _enterDivingBellResponse;
+            }
+        }
+
+        public static EventResponse StartDescentResponse
+        {
+            get
+            {
+                _startDescentResponse ??= new EventResponse(StartDescentEvent);
+                return _startDescentResponse;
+            }
+        }
 
         private static void StartEvent(Component _, object __)
         {
@@ -97,11 +121,28 @@ namespace BeneathTheSurface.Events
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
-
+        
         private static void AllItemsTestedEvent(Component _, object __)
         {
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
+        }
+
+        private static void EnterDivingBellEvent(Component _, object __)
+        {
+            BeneathTheSurfaceGameManager.eventProgresss++;
+            BeneathTheSurfaceGameManager.player.CoverScreen();
+            GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Lock();
+            GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
+        }
+
+        private static void StartDescentEvent(Component _, object __)
+        {
+            BeneathTheSurfaceGameManager.eventProgresss++;
+            BeneathTheSurfaceGameManager.player.UncoverScreen();
+            GameManager.EmitEvent(new BSEvents.CloseMenu());
+            GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(UnderwaterView)));
+            GameObject.FindWithTag("DiveBell").GetComponent<DiveBellController>().Decend();
         }
 
         private static void QuitEvent(Component _, object __)

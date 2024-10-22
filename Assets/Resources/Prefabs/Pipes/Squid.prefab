@@ -65,7 +65,6 @@ MonoBehaviour:
   _swimLength: 3.5
   _swimStrength: 10
   _rotateSpeed: 2
-  _test: {fileID: 0}
 --- !u!54 &6826831419230313210
 Rigidbody:
   m_ObjectHideFlags: 0
