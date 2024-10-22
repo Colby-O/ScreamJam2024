@@ -20,7 +20,7 @@ MonoBehaviour:
   invertedViewY: 1
   maxViewY: 80
   minViewY: -80
-  walkingForwardSpeed: 70
+  walkingForwardSpeed: 250
   walkingBackwardSpeed: 8
   walkingStrateSpeed: 8
   movementSmoothing: 0

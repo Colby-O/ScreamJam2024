@@ -28,6 +28,7 @@ namespace BeneathTheSurface.Player
 
 		[SerializeField] private float _oxygenDepletionRate = 0.01f;
 		[SerializeField] private float _oxygenLevel = 1.0f;
+		[SerializeField] private AudioClip _oxygenRefillSound;
 
 		private AudioSource _audioSource;
 		[SerializeField] private List<AudioClip> _swimSounds;
@@ -155,6 +156,7 @@ namespace BeneathTheSurface.Player
 		public void RefillOxygen()
 		{
 			_oxygenLevel = 1.0f;
+			_audioSource.PlayOneShot(_oxygenRefillSound);
 		}
 
 		private void HandlePuase(InputAction.CallbackContext e)
