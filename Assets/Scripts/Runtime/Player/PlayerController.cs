@@ -35,6 +35,10 @@ namespace BeneathTheSurface.Player
 
 		private Vector2 _rawMovementInput;
 		private Vector2 _rawViewInput;
+        
+		private Transform _squid;
+
+        private bool _inDeathScene = false;
 
         private float _lastSwimTime;
         [SerializeField] private float _swimLength = 2.0f;
@@ -51,6 +55,12 @@ namespace BeneathTheSurface.Player
         private void SetSwim()
         {
             _lastSwimTime = Time.time;
+        }
+
+        public void DeathScene()
+        {
+            _inDeathScene = true;
+            _rigidbody.isKinematic = true;
         }
 
 		private void HandleMovementAction(InputAction.CallbackContext e)
@@ -134,6 +144,7 @@ namespace BeneathTheSurface.Player
 
         private void Awake()
 		{
+            _squid = FindObjectOfType<SquidAi>().transform;
             _oceanMonoSystem = GameManager.GetMonoSystem<IOceanMonoSystem>();
             if (_playerSettings == null) _playerSettings = new PlayerSettings();
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
@@ -155,15 +166,22 @@ namespace BeneathTheSurface.Player
 
 		private void Update()
 		{
-			if (!BeneathTheSurfaceGameManager.allowInput || (_inspector.IsExaming && !_inspector.IsMoveable))
-			{
-				ZeroInput();
-                _playerInput.enabled = false;
-			}
-            else _playerInput.enabled = true;
-            ProcessView();
-            if (transform.position.y > _oceanMonoSystem.GetSeaLevel()) ProcessMovement();
-            else ProcessUnderwaterMovement();
+            if (_inDeathScene)
+            {
+                _head.transform.LookAt(_squid);
+            }
+            else
+            {
+                if (!BeneathTheSurfaceGameManager.allowInput || (_inspector.IsExaming && !_inspector.IsMoveable))
+                {
+                    ZeroInput();
+                    _playerInput.enabled = false;
+                }
+                else _playerInput.enabled = true;
+                ProcessView();
+                if (transform.position.y > _oceanMonoSystem.GetSeaLevel()) ProcessMovement();
+                else ProcessUnderwaterMovement();
+            }
         }
 	}
 }
