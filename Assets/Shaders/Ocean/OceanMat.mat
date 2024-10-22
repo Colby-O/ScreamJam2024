@@ -134,11 +134,12 @@ Material:
     - _GlossyReflections: 0
     - _LODScale: 0.5
     - _Metallic: 0
+    - _NormalMapStrength: 0.291
     - _NormalStrength: 0.61
     - _NormalTIle: 0.27
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PhysicsTime: 33.995636
+    - _PhysicsTime: 215.85265
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RainFPS: 16

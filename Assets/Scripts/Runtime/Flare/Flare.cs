@@ -6,64 +6,69 @@ using UnityEngine.InputSystem;
 
 namespace BeneathTheSurface
 {
-    public class Flare : MonoBehaviour
-    {
-        [SerializeField] private GameObject _fuse;
-        [SerializeField] private ParticleSystem _flame;
-        [SerializeField] private float _lifeSpan;
+	public class Flare : MonoBehaviour
+	{
+		[SerializeField] private GameObject _fuse;
+		[SerializeField] private ParticleSystem _flame;
+		[SerializeField] private float _lifeSpan;
 
-        [SerializeField, ReadOnly] private bool _isOn;
-        [SerializeField, ReadOnly] private bool _isUsed;
-        [SerializeField, ReadOnly] private float _life;
-        
-        public void SetFuse()
-        {
-            if (_isUsed) return;
+		[SerializeField, ReadOnly] private bool _isOn;
+		[SerializeField, ReadOnly] private bool _isUsed;
+		[SerializeField, ReadOnly] private float _life;
 
-            _life = 0;
-            _isUsed = true;
-            _isOn = true;
+		private SquidAi _squid;
+		
+		public void SetFuse()
+		{
+			if (_isUsed) return;
 
-            _flame.gameObject.SetActive(true);
-            _fuse.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
-        }
+			_life = 0;
+			_isUsed = true;
+			_isOn = true;
 
-        public bool IsOn()
-        {
-            return _isOn;
-        }
+			_flame.gameObject.SetActive(true);
+			_fuse.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
 
-        public bool IsUsed()
-        {
-            return _isUsed;
-        }
+			_squid.SendFlare();
+		}
 
-        private void Awake()
-        {
-            _fuse.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
-            _flame.gameObject.SetActive(false);
-            _isOn = false;
-            _isUsed= false;
-        }
+		public bool IsOn()
+		{
+			return _isOn;
+		}
 
-        private void Update()
-        {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                SetFuse();
-            }
+		public bool IsUsed()
+		{
+			return _isUsed;
+		}
 
-            if ( _isOn )
-            {
-                _life += Time.deltaTime;
+		private void Awake()
+		{
+			_squid = FindObjectOfType<SquidAi>();
+			_fuse.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
+			_flame.gameObject.SetActive(false);
+			_isOn = false;
+			_isUsed= false;
+		}
 
-                if (_life > _lifeSpan)
-                {
-                    _fuse.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
-                    _flame.gameObject.SetActive(false);
-                    _isOn = false;
-                }
-            }
-        }
-    }
+		private void Update()
+		{
+			if (Mouse.current.leftButton.wasPressedThisFrame)
+			{
+				SetFuse();
+			}
+
+			if ( _isOn )
+			{
+				_life += Time.deltaTime;
+
+				if (_life > _lifeSpan)
+				{
+					_fuse.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
+					_flame.gameObject.SetActive(false);
+					_isOn = false;
+				}
+			}
+		}
+	}
 }
