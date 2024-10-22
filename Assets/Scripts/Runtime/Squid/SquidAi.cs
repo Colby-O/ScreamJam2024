@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 
 namespace BeneathTheSurface
 {
+	[RequireComponent(typeof(Rigidbody))]
     public class SquidAi : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed = 2.0f;
@@ -24,14 +25,25 @@ namespace BeneathTheSurface
         [SerializeField] private float _noiseLevel = 0.0f;
         private float _flairTime = 0.0f;
         private float _lastWithPlayerTime = 0.0f;
+
+        private Rigidbody _rigidbody;
+        private Animator _animator;
+        private Transform _squidBody;
         
         private bool IsLonely() => Time.time - _lastWithPlayerTime >= _lonelyTime;
         
         [SerializeField] Vector3 _target;
-        private Vector3 _targetDirection;
+        private Vector3 _targetDirection => Vector3.Normalize(_target - transform.position);
         
-        private Transform _player;
+        private PlayerController _player;
         [SerializeField] private int _maxRetries = 20;
+        [SerializeField] private float _swimFriction;
+        [SerializeField] private float _swimLength;
+        [SerializeField] private float _swimStrength;
+        [SerializeField] private float _rotateSpeed = 40.0f;
+        private float _lastSwimTime;
+
+        private float _swimAnimationTime;
 
         public void SendFlair()
         {
@@ -46,7 +58,12 @@ namespace BeneathTheSurface
 
         private void Start()
         {
-            _player = GameObject.FindObjectOfType<PlayerController>().transform;
+            _animator = GetComponentInChildren<Animator>();
+            _squidBody = transform.GetChild(0);
+            _swimAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).length;
+            Debug.Log(_swimAnimationTime);
+            _rigidbody = GetComponent<Rigidbody>();
+            _player = FindObjectOfType<PlayerController>();
             _lastWithPlayerTime = Time.time;
             NextTarget();
         }
@@ -54,7 +71,7 @@ namespace BeneathTheSurface
         private bool IsValidMove()
         {
             return (
-                !Physics.SphereCast(transform.position, transform.localScale.x, _targetDirection, out var _, _maxMoveDistance) &&
+                !Physics.SphereCast(transform.position, _visionThickness, _targetDirection, out var _, _maxMoveDistance) &&
                 _target.y < _heightLimit
             );
         }
@@ -66,8 +83,8 @@ namespace BeneathTheSurface
             int giveUp = 0;
             do
             {
-                _targetDirection = Random.insideUnitSphere;
-                _target = transform.position + _targetDirection * maxMoveDistance;
+                Vector3 dir = Random.insideUnitSphere;
+                _target = transform.position + dir * maxMoveDistance;
             } while (!IsValidMove() && ++giveUp < _maxRetries);
 
             if (giveUp == _maxRetries)
@@ -81,9 +98,9 @@ namespace BeneathTheSurface
             int giveUp = 0;
             do
             {
-                Vector3 target = _player.position + Random.insideUnitSphere * _playerGeneralArea;
-                _targetDirection = Vector3.Normalize(target - transform.position);
-                _target = transform.position + _targetDirection * _maxMoveDistance;
+                Vector3 target = _player.transform.position + Random.insideUnitSphere * _playerGeneralArea;
+                Vector3 dir = Vector3.Normalize(target - transform.position);
+                _target = transform.position + dir * _maxMoveDistance;
             } while (!IsValidMove() && ++giveUp < _maxRetries);
             if (giveUp == _maxRetries) RandomMove();
         }
@@ -93,9 +110,9 @@ namespace BeneathTheSurface
             int giveUp = 0;
             do
             {
-                Vector3 target = _player.position + Random.insideUnitSphere * _playerGeneralArea;
-                _targetDirection = -Vector3.Normalize(target - transform.position);
-                _target = transform.position + _targetDirection * _maxMoveDistance;
+                Vector3 target = _player.transform.position + Random.insideUnitSphere * _playerGeneralArea;
+                Vector3 dir = -Vector3.Normalize(target - transform.position);
+                _target = transform.position + dir * _maxMoveDistance;
             } while (!IsValidMove() && ++giveUp < _maxRetries);
             if (giveUp == _maxRetries) RandomMove();
         }
@@ -122,31 +139,69 @@ namespace BeneathTheSurface
                 Debug.Log("RANDOM");
                 RandomMove();
             }
+            _test.transform.position = _target;
         }
         
         private void KillPlayer()
         {
             Debug.Log("YOU DEAD");
+            _animator.SetTrigger("Attack");
+            _attacking = true;
+            _target = _player.transform.position;
+            _swimLength /= 3.0f;
+            _rotateSpeed *= 3.0f;
+            _player.DeathScene();
         }
         
         private void LookForPlayer()
         {
-            Vector3 dir = Vector3.Normalize(_player.position - transform.position);
+            Vector3 dir = Vector3.Normalize(_player.transform.position - transform.position);
             if (Physics.SphereCast(transform.position, _visionThickness, dir, out RaycastHit hit, _visionRange))
             {
                 if (hit.transform.CompareTag("Player")) KillPlayer();
             }
         }
 
+
+        private bool _swimTrigger = false;
+        [SerializeField] private GameObject _test;
+        private bool _attacking = false;
+        private float _attackRotationProgress = 0.0f;
+
         private void Update()
         {
-            transform.Translate(_targetDirection * (_moveSpeed * Time.deltaTime));
-            if (Vector3.Distance(transform.position, _player.position) < _playerGeneralArea) _lastWithPlayerTime = Time.time;
-            if (Vector3.Distance(transform.position, _player.position) < _visionRange)
+            if (_attacking && _attackRotationProgress < 1.0f)
+            {
+                _squidBody.rotation *= Quaternion.AngleAxis(180.0f * Time.deltaTime, Vector3.right);
+                _attackRotationProgress += Time.deltaTime;
+            }
+            if (_attacking) _target = _player.transform.position;
+            _rigidbody.AddForce(transform.right * (-1.0f * Vector3.Dot(transform.right, _rigidbody.velocity)));
+            _rigidbody.AddForce(transform.up * (-1.0f * Vector3.Dot(transform.up, _rigidbody.velocity)));
+            _rigidbody.AddForce(transform.forward * (-_swimFriction * Vector3.Dot(transform.forward, _rigidbody.velocity)));
+
+            if (!_attacking && !_swimTrigger && Time.time + _swimAnimationTime * 0.75f - _lastSwimTime > _swimLength)
+            {
+                _animator.SetTrigger("Swim");
+                _swimTrigger = true;
+            }
+            if (Time.time - _lastSwimTime > _swimLength)
+            {
+                _rigidbody.AddForce(transform.forward * _swimStrength, ForceMode.Impulse);
+                _lastSwimTime = Time.time;
+                _swimTrigger = false;
+            }
+
+            Quaternion _targetRotation = Quaternion.LookRotation(_targetDirection, transform.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, Time.deltaTime * _rotateSpeed);
+            
+            float distanceToPlayer = Vector3.Distance(transform.position, _player.transform.position);
+            if (distanceToPlayer < _playerGeneralArea) _lastWithPlayerTime = Time.time;
+            if (!_attacking && distanceToPlayer < _visionRange)
             {
                 LookForPlayer();
             }
-            if (Vector3.Dot(_target - transform.position, _targetDirection) < 0)
+            if (!_attacking && Vector3.Distance(_target, transform.position) < _visionThickness * 2.0f)
             {
                 NextTarget();
             }
