@@ -16,7 +16,8 @@ namespace BeneathTheSurface.Events
         private static EventResponse _startResponse;
         private static EventResponse _itemsFetchedResponse;
         private static EventResponse _pipeTutorialResponse;
-        private static EventResponse _FinishedPipeTutorialResponse;
+        private static EventResponse _finishedPipeTutorialResponse;
+        private static EventResponse _allItemsTestedResponse;
 
         public static EventResponse QuitResponse { 
             get { 
@@ -56,8 +57,16 @@ namespace BeneathTheSurface.Events
         {
             get
             {
-                _FinishedPipeTutorialResponse ??= new EventResponse(FinishedPipeTutorialEvent);
-                return _FinishedPipeTutorialResponse;
+                _finishedPipeTutorialResponse ??= new EventResponse(FinishedPipeTutorialEvent);
+                return _finishedPipeTutorialResponse;
+            }
+        }
+        public static EventResponse AllItemsTestedResponse
+        {
+            get
+            {
+                _allItemsTestedResponse ??= new EventResponse(AllItemsTestedEvent);
+                return _allItemsTestedResponse;
             }
         }
 
@@ -82,11 +91,17 @@ namespace BeneathTheSurface.Events
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
-
+       
         private static void FinishedPipeTutorialEvent(Component _, object __)
         {
             BeneathTheSurfaceGameManager.eventProgresss++;
-            Debug.Log("Finsihed Pipe Tutorial!");
+            GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
+        }
+
+        private static void AllItemsTestedEvent(Component _, object __)
+        {
+            BeneathTheSurfaceGameManager.eventProgresss++;
+            GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 
         private static void QuitEvent(Component _, object __)

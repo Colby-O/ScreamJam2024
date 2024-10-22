@@ -508,6 +508,18 @@ MonoBehaviour:
   - id: 0
     name: alarm
     audio: {fileID: 8300000, guid: f97e73ef6198c0542b5c8309ac034fd8, type: 3}
+  - id: 1
+    name: ButtonClick
+    audio: {fileID: 8300000, guid: c1853207b3c2b2644b91ca0b4c08b102, type: 3}
+  - id: 2
+    name: PlacePipe
+    audio: {fileID: 8300000, guid: bbf99c5b54e274048ab5e5065b5c7672, type: 3}
+  - id: 3
+    name: FinishedWeld
+    audio: {fileID: 8300000, guid: 4186dde8efd05ee408ea46b84eb4cd64, type: 3}
+  - id: 4
+    name: Beep
+    audio: {fileID: 8300000, guid: a7884bcdf2a89d245a61257dc8919b4c, type: 3}
   _musicSource: {fileID: 1411529205688699613}
   _ambientSource: {fileID: 5653515297908743381}
   _sfxMainSource: {fileID: 7750095110259915948}
@@ -799,6 +811,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ac4c518503cfe584dadd5c997debe742, type: 3}
   _rainOutdoorClip: {fileID: 8300000, guid: 6a89e6b9f8dd3bb409d16c8f32b61886, type: 3}
   _rainIndoorClip: {fileID: 8300000, guid: 200361452ed56894ba6d8d27b298f3e6, type: 3}
+  _isStormy: 1
+  _isIndoors: 0
 --- !u!1 &7799458239768524629
 GameObject:
   m_ObjectHideFlags: 0

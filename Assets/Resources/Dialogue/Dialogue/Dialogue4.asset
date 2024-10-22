@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
+  m_Name: Dialogue4
+  m_EditorClassIdentifier: 
+  id: -1
+  includeInDatabase: 1
+  _dialogues:
+  - msg:
+      list:
+      - Key: 0
+        Value: 'Great work! This is exactly the kind of work ethic we value at Abyssal
+          Drilling. '
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "Funny story, one of our team members had a run-in with a hammerhead
+          shark a few months ago. In a stroke of genius, the fellow used extra pipes
+          to create a barrier between himself and the shark, which is probably the
+          only reason he\u2019s still alive. "
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "But don\u2019t worry\u2026 you likely won\u2019t encounter any sharks!"
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "Speaking of sharks, we've also equipped you with a radar to help
+          you navigate the deep sea. If any sea creatures come close, you\u2019ll
+          hear a beeping sound."
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "In case you encounter something more dangerous, we\u2019ve also provided
+          a flare to help scare it off."
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "[Click \u20183\u2019 To Equip Your Radar]"
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: '[Green Dots Are Obstacles And Red Are Life Forms.]'
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: '[Radar will emit a beeping sound if any life forms are detected nearby]'
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "[Click \u20184\u2019 To Equip Your Flair. A flair can scare off creatures]"
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: '[You only have one flare until you are able to collect another at
+          your diving bell.]'
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  order: 4

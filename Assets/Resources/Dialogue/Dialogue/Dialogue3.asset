@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
   m_Name: Dialogue3
   m_EditorClassIdentifier: 
-  id: -1
+  id: 2
   includeInDatabase: 1
   _dialogues:
   - msg:
@@ -22,6 +22,39 @@ MonoBehaviour:
           months since your last rotation, we\u2019ll give you a brief practice session.
           Use the pipe scraps scattered around the room to connect the two pipes
           at each end of the room."
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: '[Click ''E'' To Pick up and Place Pipes]'
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: '[Use The Arrow Keys To Rotate The Pipes]'
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: '[Click ''2'' to equip the welder]'
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: '[Click Left Mouse Button With The Welder Equipped To Weld Together
+          A Pipe]'
       - Key: 1
         Value: 
       keyCollision: 0

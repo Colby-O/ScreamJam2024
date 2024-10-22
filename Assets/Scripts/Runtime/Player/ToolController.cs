@@ -14,7 +14,8 @@ namespace BeneathTheSurface.Player
     {
         Hands,
         Welder,
-        Radar
+        Radar,
+        Flare
     }
  
 
@@ -30,6 +31,11 @@ namespace BeneathTheSurface.Player
         private GameObject _toolInstance;
 
         private bool _hasAllItmes = false;
+
+        private bool _hasFlare = false;
+
+        private bool _hasTriedFlare;
+        private bool _hasTriedRadar;
 
         public void GiveTool(Tool tool)
         {
@@ -64,9 +70,15 @@ namespace BeneathTheSurface.Player
             return _toolSelected;
         }
 
+        public void AddFlare()
+        {
+            _hasFlare = true;
+        }
+
         private void Awake()
         {
             GiveTool(Tool.Hands);
+            _hasFlare = true;
         }
 
         private void Update()
@@ -77,14 +89,21 @@ namespace BeneathTheSurface.Player
                 {
                     SwapTool(Tool.Hands);
                 }
-                else if (Keyboard.current[Key.Digit2].wasPressedThisFrame && HasTool(Tool.Radar))
+                else if (Keyboard.current[Key.Digit3].wasPressedThisFrame && HasTool(Tool.Radar))
                 {
+                    _hasTriedRadar = true;
                     if (CurrentTool() != Tool.Radar) SwapTool(Tool.Radar);
                     else SwapTool(Tool.Hands);
                 }
-                else if (Keyboard.current[Key.Digit3].wasPressedThisFrame && HasTool(Tool.Welder))
+                else if (Keyboard.current[Key.Digit2].wasPressedThisFrame && HasTool(Tool.Welder))
                 {
                     if (CurrentTool() != Tool.Welder) SwapTool(Tool.Welder);
+                    else SwapTool(Tool.Hands);
+                }
+                else if (Keyboard.current[Key.Digit4].wasPressedThisFrame && HasTool(Tool.Flare))
+                {
+                    _hasTriedFlare = true;
+                    if (CurrentTool() != Tool.Flare && _hasFlare) SwapTool(Tool.Flare);
                     else SwapTool(Tool.Hands);
                 }
             }
@@ -95,6 +114,24 @@ namespace BeneathTheSurface.Player
                 if (_hasAllItmes)
                 {
                     GameManager.EmitEvent(new BSEvents.ItemsFeteched());
+                }
+            }
+
+            if (_hasTriedRadar && _hasTriedFlare)
+            {
+                if (BeneathTheSurfaceGameManager.eventProgresss == 4)
+                {
+                    GameManager.EmitEvent(new BSEvents.AllItemsTested());
+                }
+            }
+
+            if (CurrentTool() == Tool.Flare)
+            {
+                Flare flare = _toolInstance.GetComponent<Flare>();
+                if (flare.IsUsed() && !flare.IsOn())
+                {
+                    _hasFlare = false;
+                    SwapTool(Tool.Hands);
                 }
             }
         }

@@ -138,7 +138,7 @@ Material:
     - _NormalTIle: 0.27
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PhysicsTime: 9.341596
+    - _PhysicsTime: 33.995636
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RainFPS: 16

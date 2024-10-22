@@ -1,5 +1,6 @@
 using BeneathTheSurface.MonoSystems;
 using PlazmaGames.Attribute;
+using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,8 @@ namespace BeneathTheSurface.Wielding
         public List<Vector3Int> Connections;
 
         private float GridSize => GameManager.GetMonoSystem<IBuildingMonoSystem>().GetGridSize();
+
+        private Quaternion _lastRot;
 
         public void SetWeldedState(bool isWelded)
         {
@@ -159,14 +162,21 @@ namespace BeneathTheSurface.Wielding
                 }
             }
 
-            if (!IsWielded()) SetWeldedState(_wieldProgress >= _wieldTime);
+            if (!IsWielded())
+            {
+                SetWeldedState(_wieldProgress >= _wieldTime);
+                if (IsWielded()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("FinishedWeld", PlazmaGames.Audio.AudioType.Sfx, false, true);
+            }
 
             Vector3Int pos = new Vector3Int(
                  Mathf.FloorToInt(transform.position.x / GridSize),
                  Mathf.FloorToInt(transform.position.y / GridSize),
                  Mathf.FloorToInt(transform.position.z / GridSize)
              );
-            
+
+            Vector3Int lastPos = _lastPosition;
+
+
             if (_lastPosition != pos)
             {
                 bool canMovePipe = GameManager.GetMonoSystem<IBuildingMonoSystem>().AddPipe(this, pos);
@@ -181,11 +191,15 @@ namespace BeneathTheSurface.Wielding
             transform.position = new Vector3(_lastPosition.x, _lastPosition.y, _lastPosition.z) * GridSize;
             ComputeConeections();
 
+            if (HasConnection() && (lastPos != _lastPosition || _lastRot != transform.rotation)) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("PlacePipe", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
             if (_isWielding && HasConnection() && !IsWielded()) _wieldProgress += Time.deltaTime;
             if (!HasConnection() && !IsWielded()) _wieldProgress = 0;
 
             //if (HasConnection() && IsWielded()) _renderer.material.color = Color.green;
             //else _renderer.material.color = Color.red;
+
+            _lastRot = transform.rotation;
         }
     }
 }

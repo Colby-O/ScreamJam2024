@@ -34,13 +34,15 @@ namespace BeneathTheSurface.Radar
         private void Update()
         {
             _timeSinceLastPing += Time.deltaTime;
-            if (_timeSinceLastPing < _lifeSpan) 
+
+            if (_timeSinceLastPing > _lifeSpan)
             {
-                _renderer.material.color = new Color(_renderer.material.color.r, _renderer.material.color.g, _renderer.material.color.b, 1f - _timeSinceLastPing / _lifeSpan);
+                if (_destoryOnFinish) Destroy(_icon.gameObject);
+                return;
             }
-            else if (_destoryOnFinish)
+            else
             {
-                Destroy(_icon.gameObject);
+                _renderer.material.color = new Color(_renderer.material.color.r, _renderer.material.color.g, _renderer.material.color.b, Mathf.Clamp01(1f - _timeSinceLastPing / _lifeSpan));
             }
         }
     }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1188272882883830494}
   - component: {fileID: 6600682378975776729}
   m_Layer: 7
-  m_Name: RadarIcon
+  m_Name: RadarIconObs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,4 +99,4 @@ MonoBehaviour:
   _icon: {fileID: 8539933057093761972}
   _renderer: {fileID: 1188272882883830494}
   _destoryOnFinish: 1
-  _lifeSpan: 2
+  _lifeSpan: 0.5
