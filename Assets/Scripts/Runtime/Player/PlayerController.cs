@@ -4,6 +4,7 @@ using BeneathTheSurface.MonoSystems;
 using PlazmaGames.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace BeneathTheSurface.Player
 {
@@ -15,7 +16,6 @@ namespace BeneathTheSurface.Player
 		[SerializeField] private PlayerSettings _playerSettings;
 		[SerializeField] private PlayerInput _playerInput;
 		[SerializeField] private GameObject _screenCover;
-		//[SerializeField] private AudioSource _audioSource;
 
 		[Header("Body Part References")]
 		[SerializeField] private GameObject _head;
@@ -28,6 +28,10 @@ namespace BeneathTheSurface.Player
 
 		[SerializeField] private float _oxygenDepletionRate = 0.01f;
 		[SerializeField] private float _oxygenLevel = 1.0f;
+
+		private AudioSource _audioSource;
+		[SerializeField] private List<AudioClip> _swimSounds;
+		private int _swimSoundIndex = 0;
 		
 		private Rigidbody _rigidbody;
 
@@ -71,6 +75,8 @@ namespace BeneathTheSurface.Player
 		private void SetSwim()
 		{
 			_lastSwimTime = Time.time;
+			_audioSource.PlayOneShot(_swimSounds[_swimSoundIndex]);
+			_swimSoundIndex = (_swimSoundIndex + 1) % _swimSounds.Count;
 		}
 
 		public void DeathScene()
@@ -173,9 +179,9 @@ namespace BeneathTheSurface.Player
 		{
 			_squid = FindObjectOfType<SquidAi>().transform;
 			_oceanMonoSystem = GameManager.GetMonoSystem<IOceanMonoSystem>();
+			_audioSource = GetComponent<AudioSource>();
 			if (_playerSettings == null) _playerSettings = new PlayerSettings();
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
-			//if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
 			if (_inspector == null) _inspector = GetComponent<Inspector>();
 			_rigidbody = GetComponent<Rigidbody>();
 			_rigidbody.maxLinearVelocity = float.MaxValue;

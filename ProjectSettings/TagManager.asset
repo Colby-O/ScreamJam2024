@@ -9,6 +9,7 @@ TagManager:
   - PipeT1
   - PipeT2
   - DiveBellDoor
+  - OxygenStation
   layers:
   - Default
   - TransparentFX
