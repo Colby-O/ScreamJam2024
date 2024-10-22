@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
+  m_Name: Dialogue6
+  m_EditorClassIdentifier: 
+  id: 5
+  includeInDatabase: 1
+  _dialogues:
+  - msg:
+      list:
+      - Key: 0
+        Value: "Inside the diving bell, you\u2019ll find a map of the piping system.
+          Green markers indicate where sensors detect active oil flow, while red
+          markers show pipes with no flow."
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "You\u2019ll need to use this map to identify the faulty pipes. I
+          recommend making one repair at a time, then returning to the diving bell
+          to resupply and reassess the situation."
+      - Key: 1
+        Value: 
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: d30de56c971efb8429c45c8fbad37391, type: 2}
+  order: 6

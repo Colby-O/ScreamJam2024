@@ -84,8 +84,17 @@ namespace BeneathTheSurface.Inspectables
 
         protected virtual void Update()
         {
-            _meshRenderer.materials[_meshRenderer.materials.Length - 1].SetColor("_OutlineColor", _outlineColor);
+           RemoveOutline();
+        }
+
+        public void RemoveOutline()
+        {
             _meshRenderer.materials[_meshRenderer.materials.Length - 1].SetFloat("_Scale", 0);
+        }
+
+        public bool IsInteractable()
+        {
+            return allowInteract;
         }
     }
 }

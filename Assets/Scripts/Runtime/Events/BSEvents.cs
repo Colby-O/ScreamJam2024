@@ -17,6 +17,8 @@ namespace BeneathTheSurface.Events
         public record StartGame();
         public record FinishedPipeTutorial();
         public record AllItemsTested();
+        public record EnterDivingBell();
+        public record StartDescent();
         public record Quit();
     }
 }

@@ -85,6 +85,8 @@ namespace BeneathTheSurface
             AddEventListener<BSEvents.PipeTutorial>(GenericGameEvents.PipeTutorialResponse);
             AddEventListener<BSEvents.FinishedPipeTutorial>(GenericGameEvents.FinishedPipeTutorialResponse);
             AddEventListener<BSEvents.AllItemsTested>(GenericGameEvents.AllItemsTestedResponse);
+            AddEventListener<BSEvents.EnterDivingBell>(GenericGameEvents.EnterDivingBellResponse);
+            AddEventListener<BSEvents.StartDescent>(GenericGameEvents.StartDescentResponse);
             AddEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
@@ -99,6 +101,8 @@ namespace BeneathTheSurface
             RemoveEventListener<BSEvents.PipeTutorial>(GenericGameEvents.PipeTutorialResponse);
             RemoveEventListener<BSEvents.FinishedPipeTutorial>(GenericGameEvents.FinishedPipeTutorialResponse);
             RemoveEventListener<BSEvents.AllItemsTested>(GenericGameEvents.AllItemsTestedResponse);
+            RemoveEventListener<BSEvents.EnterDivingBell>(GenericGameEvents.EnterDivingBellResponse);
+            RemoveEventListener<BSEvents.StartDescent>(GenericGameEvents.StartDescentResponse);
             RemoveEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
