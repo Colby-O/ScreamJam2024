@@ -179,11 +179,6 @@ namespace BeneathTheSurface.Player
 			GameManager.EmitEvent(new BSEvents.Pause());
 		}
 
-		private void OnCollisionEnter(Collision collision)
-		{
-			Debug.Log(collision.gameObject.name);
-		}
-
 		private void CheckIfIndoors()
 		{
 			if (!BeneathTheSurfaceGameManager.allowInput) return;
