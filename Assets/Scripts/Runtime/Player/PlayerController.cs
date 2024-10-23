@@ -128,6 +128,7 @@ namespace BeneathTheSurface.Player
 			_rigidbody.AddForce(transform.forward * _rawMovementInput.y * _playerSettings.walkingForwardSpeed);
 			_rigidbody.AddForce(transform.right * _rawMovementInput.x * _playerSettings.walkingForwardSpeed);
 			_rigidbody.AddForce(new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z) * -_walkingFriction);
+			if (_rigidbody.velocity.magnitude < 0.01f) _rigidbody.velocity = Vector3.zero;
 		}
 
 		private void ProcessView()

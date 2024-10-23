@@ -26,7 +26,8 @@ namespace BeneathTheSurface
 				active.volume -= startVolume * Time.deltaTime / _fadeOutTime;
 				yield return null;
 			}
-			active.Stop();
+			_musicStartAudioSource.Stop();
+			_musicLoopAudioSource.Stop();
 			active.volume = startVolume;
 		}
 
