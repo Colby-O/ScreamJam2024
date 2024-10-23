@@ -64,15 +64,12 @@ namespace BeneathTheSurface.MonoSystems
         };
 
         private float GridSize => GameManager.GetMonoSystem<IBuildingMonoSystem>().GetGridSize();
-        private int Height => GameManager.GetMonoSystem<IPipeSystemMonoSystem>().GetGridHeight();
+        private int Height => GetGridHeight();
 
         private bool _tutorialDone = false;
 
         public void CheckConnections()
         {
-            foreach (Vector3Int p in GameManager.GetMonoSystem<IBuildingMonoSystem>().GetAllPipesLocations()) GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(p).GetComponentInChildren<MeshRenderer>().material.color = Color.red;
-            foreach (Sector s in _sectors) s.obj.GetComponent<MeshRenderer>().material.color = Color.blue;
-
             Stack<Vector3Int> positions = new Stack<Vector3Int>();
             List<Vector3Int> visted = new List<Vector3Int>();
             positions.Push(new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y)));
@@ -189,12 +186,14 @@ namespace BeneathTheSurface.MonoSystems
             {
                 GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 obj.transform.position = new Vector3(Mathf.Floor(p.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(p.y / GridSize) * GridSize);
+                obj.transform.localScale *= GridSize;
                 obj.GetComponent<MeshRenderer>().material.color = Color.blue;
                 _sectors.Add(new Sector(obj, new Vector3Int(Mathf.FloorToInt(p.x / GridSize), Mathf.FloorToInt(_height / GridSize), Mathf.FloorToInt(p.y / GridSize))));
 
             }
             GameObject master = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             master.transform.position = new Vector3(Mathf.Floor(_masterSector.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(_masterSector.y / GridSize) * GridSize);
+            master.transform.localScale *= GridSize;
             master.GetComponent<MeshRenderer>().material.color = Color.red;
         }
 
@@ -232,10 +231,10 @@ namespace BeneathTheSurface.MonoSystems
             foreach (Vector2 p in _sectorLocations)
             {
                 Dictionary<Vector2Int, Vector2Int> path = pf.FindOptimalPath(
-                    new Vector2Int(Mathf.FloorToInt(_masterSector.x), Mathf.FloorToInt(_masterSector.y)),
-                    new Vector2Int(Mathf.FloorToInt(p.x), Mathf.FloorToInt(p.y))
+                    new Vector2Int(Mathf.FloorToInt(_masterSector.x / GridSize), Mathf.FloorToInt(_masterSector.y / GridSize)),
+                    new Vector2Int(Mathf.FloorToInt(p.x / GridSize), Mathf.FloorToInt(p.y / GridSize))
                 );
-                PlaceSector(path, new Vector2Int(Mathf.FloorToInt(p.x), Mathf.FloorToInt(p.y)));
+                PlaceSector(path, new Vector2Int(Mathf.FloorToInt(p.x / GridSize), Mathf.FloorToInt(p.y / GridSize)));
                 //pf.DrawPath(new Vector2Int(Mathf.FloorToInt(p.x), Mathf.FloorToInt(p.y)));
             }
         }

@@ -99,6 +99,8 @@ namespace BeneathTheSurface.Events
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.CoverScreen();
             BeneathTheSurfaceGameManager.allowInput = true;
+            GameObject.FindWithTag("StartDoor").GetComponent<Door>().Lock();
+            GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Lock();
             GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(SurfaceView)));
             GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(0, PlazmaGames.Audio.AudioType.Sfx, false, true);
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
@@ -107,6 +109,7 @@ namespace BeneathTheSurface.Events
         private static void ItemsFetchedEvent(Component _, object __)
         {
             BeneathTheSurfaceGameManager.eventProgresss++;
+            GameObject.FindWithTag("StartDoor").GetComponent<Door>().Unlock();
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 
@@ -125,6 +128,7 @@ namespace BeneathTheSurface.Events
         private static void AllItemsTestedEvent(Component _, object __)
         {
             BeneathTheSurfaceGameManager.eventProgresss++;
+            GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Unlock();
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 
@@ -132,6 +136,7 @@ namespace BeneathTheSurface.Events
         {
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.CoverScreen();
+            GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Close();
             GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Lock();
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
