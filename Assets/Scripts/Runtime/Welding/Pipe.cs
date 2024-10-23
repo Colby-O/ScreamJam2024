@@ -28,6 +28,8 @@ namespace BeneathTheSurface.Wielding
 
         private Quaternion _lastRot;
 
+        [SerializeField, ReadOnly] private Vector3 _realPos;
+
         public void SetWeldedState(bool isWelded)
         {
             _isWelded = isWelded;
@@ -133,6 +135,8 @@ namespace BeneathTheSurface.Wielding
 
         private void LateUpdate()
         {
+            _realPos = transform.position;
+
             if (IsWielded() && !HasConnection() && !_exemptFromConnection)
             {
                 MoveableObject mo = GetComponent<MoveableObject>();
@@ -195,9 +199,6 @@ namespace BeneathTheSurface.Wielding
 
             if (_isWielding && HasConnection() && !IsWielded()) _wieldProgress += Time.deltaTime;
             if (!HasConnection() && !IsWielded()) _wieldProgress = 0;
-
-            //if (HasConnection() && IsWielded()) _renderer.material.color = Color.green;
-            //else _renderer.material.color = Color.red;
 
             _lastRot = transform.rotation;
         }
