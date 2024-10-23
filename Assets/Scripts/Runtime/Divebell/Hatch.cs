@@ -59,6 +59,16 @@ namespace BeneathTheSurface
             return true;
         }
 
+        public void Lock()
+        {
+            _isLocked = true;
+        }
+
+        public void Unlock()
+        {
+            _isLocked = false;
+        }
+
         public bool IsPickupable()
         {
             return false;

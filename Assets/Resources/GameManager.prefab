@@ -308,13 +308,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50769cb0249d50942a5d9bbfc76b50ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfSectors: 0
+  _numberOfSectors: 100
   _bounds:
     m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 100, y: 1, z: 100}
-  _height: -100
+    m_Size: {x: 500, y: 1, z: 500}
+  _height: -1000
   _minDistBetweenSectors: 10
-  _amountOfBreaks: 0
+  _amountOfBreaks: 15
   _borkenRange: 5
   _striaght: {fileID: 132278347216092646, guid: 14939e19fd0dd154da610c783a90ba12,
     type: 3}
@@ -323,6 +323,19 @@ MonoBehaviour:
     type: 3}
   _fourway: {fileID: 7635681923939182953, guid: e27582e3e0f93ae4d8a2d6dfd8c50189,
     type: 3}
+  _sectorPrefab: {fileID: 7052920714245151025, guid: 6bf295de8e76d7148ae84661fe081b26,
+    type: 3}
+  _mainSectorPrefab: {fileID: 2401368417928475113, guid: 21c4a13a28af2b542bfaabcd1a8361f8,
+    type: 3}
+  _oceanFloorHeight: -1100
+  _kelpPrefab: {fileID: 8104464965669018142, guid: 262292c8240f7dc4ba60bbb82977938d,
+    type: 3}
+  _kelpHeightRange: {x: 1, y: 2}
+  _distanceBetweenKelp: 10
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  _numOfExtraPipesToSpawn: 200
 --- !u!1 &4742157196341830188
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +516,13 @@ MonoBehaviour:
   _sfxSound: 1
   _musicSound: 1
   _musicSounds: []
-  _ambientSounds: []
+  _ambientSounds:
+  - id: 0
+    name: DiveBellMove
+    audio: {fileID: 8300000, guid: 91a167e5c8eeb1f48a701bb6d81268a5, type: 3}
+  - id: 1
+    name: OceanAmbient
+    audio: {fileID: 8300000, guid: 23affa408bdfe48419a14bf107fc8ed8, type: 3}
   _sfxSounds:
   - id: 0
     name: alarm

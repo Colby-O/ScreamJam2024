@@ -11,6 +11,12 @@ TagManager:
   - DiveBellDoor
   - OxygenStation
   - StartDoor
+  - Ladder
+  - Kelp
+  - DiveBellHatch
+  - DiveBell
+  - InsideDiveBell
+  - Surface
   layers:
   - Default
   - TransparentFX
@@ -21,8 +27,8 @@ TagManager:
   - Scanable
   - RadarIcon
   - Floor
-  - 
-  - 
+  - MapIcon
+  - OceanFloor
   - 
   - 
   - 

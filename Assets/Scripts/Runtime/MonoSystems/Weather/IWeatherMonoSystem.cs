@@ -8,5 +8,6 @@ namespace BeneathTheSurface.MonoSystems
     public interface IWeatherMonoSystem : IMonoSystem
     {
         public void SetWeatherState(bool isStormy, bool isIndoors);
+        public bool IsStromy();
     }
 }

@@ -10,6 +10,8 @@ namespace BeneathTheSurface.Trigger
 {
     public abstract class Trigger : MonoBehaviour
     {
+        [SerializeField] protected bool _canTriggerMoreThanOnce = false;
+
         [SerializeField, ReadOnly] protected bool _isTriggered = false;
 
         protected abstract void OnTrigger();
@@ -21,7 +23,7 @@ namespace BeneathTheSurface.Trigger
 
         protected void OnTriggerEnter(Collider other)
         {
-            if (_isTriggered || !Condition()) return;
+            if ((_isTriggered && !_canTriggerMoreThanOnce) || !Condition()) return;
 
             if (other.gameObject.CompareTag("Player"))
             {

@@ -12,6 +12,9 @@ namespace BeneathTheSurface.Wielding
         [SerializeField] List<Transform> _connectionsLocations;
         [SerializeField] float _wieldTime;
         [SerializeField] MeshRenderer _renderer;
+        [SerializeField] float _rendererDist = 100f;
+
+        [SerializeField] private GameObject _icon;
 
         [SerializeField] private bool _isWelded;
         [SerializeField] private bool _exemptFromConnection;
@@ -28,7 +31,19 @@ namespace BeneathTheSurface.Wielding
 
         private Quaternion _lastRot;
 
-        [SerializeField, ReadOnly] private Vector3 _realPos;
+        [SerializeField] private bool _snap = true;
+
+        private bool _hasHitGroud = false;
+
+        public void EnableIcon()
+        {
+            _icon.SetActive(true);
+        }
+
+        public void DisableIcon()
+        {
+            _icon.SetActive(false);
+        }
 
         public void SetWeldedState(bool isWelded)
         {
@@ -120,8 +135,20 @@ namespace BeneathTheSurface.Wielding
             return isFullyConnected || (_exemptFromConnection && HasConnection(out Pipe pipe) && (pipe?.IsWielded() ?? false));
         }
 
+        public void DisableSnap()
+        {
+            _snap = false;
+        }
+
+        public void EnableSnap()
+        {
+            _snap = true;
+        }
+
         private void Awake()
         {
+            DisableIcon();
+
             Connections = new List<Vector3Int>();
             _lastPosition = new Vector3Int(
                 Mathf.FloorToInt(transform.position.x / GridSize),
@@ -135,7 +162,9 @@ namespace BeneathTheSurface.Wielding
 
         private void LateUpdate()
         {
-            _realPos = transform.position;
+            _renderer.enabled = Vector3.Distance(BeneathTheSurfaceGameManager.player.transform.position, transform.position) <= _rendererDist;
+
+            if (!_snap) return;
 
             if (IsWielded() && !HasConnection() && !_exemptFromConnection)
             {
@@ -179,7 +208,6 @@ namespace BeneathTheSurface.Wielding
              );
 
             Vector3Int lastPos = _lastPosition;
-
 
             if (_lastPosition != pos)
             {

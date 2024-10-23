@@ -134,21 +134,21 @@ Material:
     - _GlossyReflections: 0
     - _LODScale: 0.5
     - _Metallic: 0
-    - _NormalMapStrength: 0.5
-    - _NormalStrength: 0.61
+    - _NormalMapStrength: 0.258
+    - _NormalStrength: 0.58
     - _NormalTIle: 0.27
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PhysicsTime: 114.7478
+    - _PhysicsTime: 158.3346
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RainFPS: 16
     - _RainFadeDensity: 1
     - _RainSpeed: 1
-    - _RainStrength: 0.5
-    - _RainTile: 0.82
+    - _RainStrength: 0.29
+    - _RainTile: 0.72
     - _ReceiveShadows: 1
-    - _Smoothness: 0.574
+    - _Smoothness: 0.516
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 0.5

@@ -5,6 +5,8 @@ using PlazmaGames.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System.Linq;
+using PlazmaGames.Audio;
 
 namespace BeneathTheSurface.Player
 {
@@ -32,9 +34,10 @@ namespace BeneathTheSurface.Player
 		[SerializeField] private float _oxygenLevel = 1.0f;
 		[SerializeField] private AudioClip _oxygenRefillSound;
 
-		private AudioSource _audioSource;
+        [SerializeField] private AudioSource _audioSource;
 		[SerializeField] private List<AudioClip> _swimSounds;
-		private int _swimSoundIndex = 0;
+		[SerializeField] private AudioClip _walkSound;
+        private int _swimSoundIndex = 0;
 		
 		private Rigidbody _rigidbody;
 
@@ -62,6 +65,14 @@ namespace BeneathTheSurface.Player
 		[SerializeField] private float _swimFriction = 0.04f;
 		private IOceanMonoSystem _oceanMonoSystem;
 		[SerializeField] private float _walkingFriction = 0.1f;
+
+		private bool _diveAudioWasSet = true;
+        private bool _oceanAudioWasSet = false;
+
+        public float GetOxygenLevel()
+		{
+			return _oxygenLevel;
+		}
 
 		public void CoverScreen()
 		{
@@ -128,7 +139,24 @@ namespace BeneathTheSurface.Player
 			_rigidbody.AddForce(transform.forward * _rawMovementInput.y * _playerSettings.walkingForwardSpeed);
 			_rigidbody.AddForce(transform.right * _rawMovementInput.x * _playerSettings.walkingForwardSpeed);
 			_rigidbody.AddForce(new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z) * -_walkingFriction);
-			if (_rigidbody.velocity.magnitude < 0.01f) _rigidbody.velocity = Vector3.zero;
+			if (_rigidbody.velocity.magnitude < 0.01f)
+			{
+				_rigidbody.velocity = Vector3.zero;
+            }
+
+			if (new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude >= 1f)
+			{
+				if (!_audioSource.isPlaying)
+				{
+					_audioSource.clip = _walkSound;
+
+                    _audioSource.Play();
+				}
+			}
+			else
+			{
+				_audioSource.Stop();
+			}
 		}
 
 		private void ProcessView()
@@ -183,7 +211,7 @@ namespace BeneathTheSurface.Player
 		{
 			if (!BeneathTheSurfaceGameManager.allowInput) return;
 			_isIndoors = Physics.Raycast(transform.position, Vector3.up, out RaycastHit hit, 20f, ~gameObject.layer);
-			GameManager.GetMonoSystem<IWeatherMonoSystem>().SetWeatherState(true, _isIndoors);
+			if (GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy()) GameManager.GetMonoSystem<IWeatherMonoSystem>().SetWeatherState(GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy(), _isIndoors);
 		}
 
 		public bool IsHidden()
@@ -191,7 +219,16 @@ namespace BeneathTheSurface.Player
 			return _isHidden;
 		}
 
-		private void OnTriggerEnter(Collider other)
+		public bool IsInsideDiveBell()
+		{
+            RaycastHit[] down = Physics.RaycastAll(transform.position, -Vector3.up);
+            RaycastHit[] up = Physics.RaycastAll(transform.position, Vector3.up);
+
+            return down.Where(e => e.transform != null && e.transform.CompareTag("InsideDiveBell")).Count() > 0 && up.Where(e => e.transform != null && e.transform.CompareTag("InsideDiveBell")).Count() > 0;
+        }
+
+
+        private void OnTriggerEnter(Collider other)
 		{
 			if (other.gameObject.CompareTag("Kelp"))
 			{
@@ -219,7 +256,6 @@ namespace BeneathTheSurface.Player
 		{
 			_squid = FindObjectOfType<SquidAi>().transform;
 			_oceanMonoSystem = GameManager.GetMonoSystem<IOceanMonoSystem>();
-			_audioSource = GetComponent<AudioSource>();
 			if (_playerSettings == null) _playerSettings = new PlayerSettings();
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
 			if (_inspector == null) _inspector = GetComponent<Inspector>();
@@ -237,7 +273,13 @@ namespace BeneathTheSurface.Player
 			_pauseAction.performed += HandlePuase;
 		}
 
-		private void Update()
+        public void Reset()
+        {
+            _inDeathScene = false;
+            _rigidbody.isKinematic = false;
+        }
+
+        private void Update()
 		{
 			_oxygenLevel -= _oxygenDepletionRate * Time.deltaTime;
 			CheckIfIndoors();
@@ -256,9 +298,24 @@ namespace BeneathTheSurface.Player
 				else _playerInput.enabled = true;
 				ProcessView();
 				if (_onLadder) ProcessLadderMovement();
-				else if (transform.position.y > _oceanMonoSystem.GetSeaLevel()) ProcessMovement();
+				else if (transform.position.y > _oceanMonoSystem.GetSeaLevel() || IsInsideDiveBell()) ProcessMovement();
 				else ProcessUnderwaterMovement();
-			}
+
+    //            if (!GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy() && IsInsideDiveBell() && !_diveAudioWasSet)
+				//{
+				//	_oceanAudioWasSet = false;
+    //                _diveAudioWasSet = true;
+    //                GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
+    //                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("DiveBellMove", PlazmaGames.Audio.AudioType.Ambient, true, false);
+    //            }
+				//else if (!GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy() && !_oceanAudioWasSet)
+				//{
+				//	_diveAudioWasSet = false;
+				//	_oceanAudioWasSet = true;
+    //                GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
+    //                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("OceanAmbient", PlazmaGames.Audio.AudioType.Ambient, true, false);
+    //            }
+            }
 		}
 	}
 }

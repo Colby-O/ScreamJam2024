@@ -34,7 +34,7 @@ namespace BeneathTheSurface.Inspectables
 
             Inspector inspector = interactor.GetComponent<Inspector>();
             if (inspector.IsExaming) return false;
-            if (_auidoclip != null) _auidoSource.PlayOneShot(_auidoclip);
+            if (_auidoclip != null && _auidoSource != null) _auidoSource.PlayOneShot(_auidoclip);
             PlayerController pc = interactor.GetComponent<PlayerController>();
             pc.ZeroInput();
             inspector.StartExamine(transform, _type, offsetPoint);

@@ -16,25 +16,25 @@ MonoBehaviour:
   _shader: {fileID: 4800000, guid: 22c8e59f6a328e04f81d588008473cb8, type: 3}
   _injectionPoint: 550
   _screenResolution: {x: 256, y: 256}
-  _screenBend: 3
-  _screenRoundness: 1
-  _vignetteOpacity: 1
-  _scanLineVerticalOpacity: 3
-  _scanLineHoriztionalOpacity: 0.1
-  _scanLineVerticalSpeed: 0.1
-  _scanLineHoriztionalSpeed: 3
+  _screenBend: 1000
+  _screenRoundness: 0.202
+  _vignetteOpacity: 0.819
+  _scanLineVerticalOpacity: 0
+  _scanLineHoriztionalOpacity: 0.151
+  _scanLineVerticalSpeed: 0.037
+  _scanLineHoriztionalSpeed: 0.132
   _scanLineStrength: 0
-  _noiseScale: 3
-  _noiseSpeed: 0.1
-  _noiseFade: 0.3
+  _noiseScale: 0.327
+  _noiseSpeed: 0.128
+  _noiseFade: 0.239
   _chromaticOffset: 0
   _chromaticOffsetSpeed: 0.1
   _brightness: 0.5
-  _contrast: 0.5
+  _contrast: 0.41
   _saturation: 0.5
   _hue: 0
   _redShift: 0
-  _blueShift: 0
+  _blueShift: 0.327
   _greenShift: 0
   _isMonochrome: 0
 --- !u!114 &-5337177139104537697

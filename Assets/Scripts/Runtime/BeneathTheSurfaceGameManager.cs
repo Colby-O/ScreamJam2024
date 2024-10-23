@@ -87,23 +87,8 @@ namespace BeneathTheSurface
             AddEventListener<BSEvents.AllItemsTested>(GenericGameEvents.AllItemsTestedResponse);
             AddEventListener<BSEvents.EnterDivingBell>(GenericGameEvents.EnterDivingBellResponse);
             AddEventListener<BSEvents.StartDescent>(GenericGameEvents.StartDescentResponse);
+            AddEventListener<BSEvents.ReachedOceanFloor>(GenericGameEvents.ReachedOceanFloorResponse);
             AddEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
-        }
-
-        private void RemoveEvents()
-        {   
-            RemoveEventListener<BSEvents.OpenMenu>(UIGameEvents.OpenMenuResponse);
-            RemoveEventListener<BSEvents.CloseMenu>(UIGameEvents.CloseMenuResponse);
-            RemoveEventListener<BSEvents.Pause>(UIGameEvents.PauseResponse);
-
-            RemoveEventListener<BSEvents.StartGame>(GenericGameEvents.StartResponse);
-            RemoveEventListener<BSEvents.ItemsFeteched>(GenericGameEvents.ItemsFetchedResponse);
-            RemoveEventListener<BSEvents.PipeTutorial>(GenericGameEvents.PipeTutorialResponse);
-            RemoveEventListener<BSEvents.FinishedPipeTutorial>(GenericGameEvents.FinishedPipeTutorialResponse);
-            RemoveEventListener<BSEvents.AllItemsTested>(GenericGameEvents.AllItemsTestedResponse);
-            RemoveEventListener<BSEvents.EnterDivingBell>(GenericGameEvents.EnterDivingBellResponse);
-            RemoveEventListener<BSEvents.StartDescent>(GenericGameEvents.StartDescentResponse);
-            RemoveEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
         public override string GetApplicationName()

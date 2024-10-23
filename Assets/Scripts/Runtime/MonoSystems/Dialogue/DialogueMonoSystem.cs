@@ -60,7 +60,11 @@ namespace BeneathTheSurface.MonoSystems
             {
                 _isDialogueInProgress = true;
                 _currentDialogueEvent = _dialogueEvents.Dequeue();
-                _currentDialogueEvent.StartDialogueEvent();
+                if (_currentDialogueEvent == null)
+                {
+                    Debug.LogWarning("Trying to load a dialogue event that is null!");
+                }
+                else _currentDialogueEvent.StartDialogueEvent();
                 OpenDialogue();
             }
             else

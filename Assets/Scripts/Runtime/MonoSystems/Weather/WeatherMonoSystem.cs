@@ -33,6 +33,11 @@ namespace BeneathTheSurface.MonoSystems
         [SerializeField, ReadOnly] private bool _isStormy = true;
         [SerializeField, ReadOnly] private bool _isIndoors = false;
 
+        public bool IsStromy()
+        {
+            return _isStormy;
+        }
+
         public void SetWeatherState(bool isStormy, bool isIndoors)
         {
             _isStormy = isStormy;
@@ -47,6 +52,11 @@ namespace BeneathTheSurface.MonoSystems
             else if (isStormy && !isIndoors) 
             {
                 GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_rainOutdoorClip, PlazmaGames.Audio.AudioType.Ambient, true, true);
+            }
+
+            if (!isStormy)
+            {
+                GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
             }
         }
 

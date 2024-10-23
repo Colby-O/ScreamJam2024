@@ -7,16 +7,17 @@ using PlazmaGames.ProGen.Sampling;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BeneathTheSurface.MonoSystems
 {
 	public class Sector
 	{
-		public GameObject obj;
+		public SectorObject obj;
 		public Vector3Int pos;
 
-		public Sector(GameObject obj, Vector3Int pos)
+		public Sector(SectorObject obj, Vector3Int pos)
 		{
 			this.obj = obj;
 			this.pos = pos;
@@ -38,7 +39,21 @@ namespace BeneathTheSurface.MonoSystems
 		[SerializeField] private Pipe _threeway;
 		[SerializeField] private Pipe _fourway;
 
-		private List<Vector2> _sectorLocations;
+		[Header("Sector Prefabs")]
+		[SerializeField] private SectorObject _sectorPrefab;
+		[SerializeField] private SectorObject _mainSectorPrefab;
+
+		[Header("Kelp Spawner")]
+        [SerializeField] private float _oceanFloorHeight;
+        [SerializeField] private GameObject _kelpPrefab;
+        [SerializeField] private Vector2 _kelpHeightRange;
+        [SerializeField] private float _distanceBetweenKelp;
+
+        [Header("Pipes")]
+        [SerializeField] private LayerMask _groundLayer;
+        [SerializeField] private float _numOfExtraPipesToSpawn;
+
+        private List<Vector2> _sectorLocations;
 		private Vector2 _masterSector;
 
 		private List<Sector> _sectors;
@@ -68,12 +83,31 @@ namespace BeneathTheSurface.MonoSystems
 
 		private bool _tutorialDone = false;
 
+		private void SpawnKelp()
+		{
+            PoissonSampler sampler = new PoissonSampler(_bounds.size.x, _bounds.size.z, _distanceBetweenKelp);
+
+            foreach (Vector2 pt in sampler.Sample())
+			{
+				GameObject kelp = Instantiate(_kelpPrefab, new Vector3(pt.x - _bounds.size.x / 2.0f, _oceanFloorHeight, pt.y - _bounds.size.z / 2.0f), Quaternion.Euler(0, Random.Range(0f, 360f), 0));
+				kelp.transform.localScale = new Vector3(kelp.transform.localScale.x, Random.Range(_kelpHeightRange.x, _kelpHeightRange.y), kelp.transform.localScale.z);
+            }
+        }
+
 		public void CheckConnections()
 		{
-			Stack<Vector3Int> positions = new Stack<Vector3Int>();
+			foreach (Vector3Int loc in GameManager.GetMonoSystem<IBuildingMonoSystem>().GetAllPipesLocations())
+			{
+				GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(loc).DisableIcon();
+                GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(loc).GetComponentInChildren<MeshRenderer>().material.color = Color.white;
+
+            }
+			foreach (Sector s in _sectors) s.obj.Disable();
+
+            Stack <Vector3Int> positions = new Stack<Vector3Int>();
 			List<Vector3Int> visted = new List<Vector3Int>();
-			positions.Push(new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y)));
-			visted.Add(new Vector3Int(Mathf.FloorToInt(_masterSector.x), Height, Mathf.FloorToInt(_masterSector.y)));
+			positions.Push(new Vector3Int(Mathf.FloorToInt(_masterSector.x / GridSize), Height, Mathf.FloorToInt(_masterSector.y / GridSize)));
+			visted.Add(new Vector3Int(Mathf.FloorToInt(_masterSector.x / GridSize), Height, Mathf.FloorToInt(_masterSector.y / GridSize)));
 			while (positions.Count > 0)
 			{
 				Vector3Int cur = positions.Pop();
@@ -81,21 +115,21 @@ namespace BeneathTheSurface.MonoSystems
 				foreach (Vector2Int dir in DIRECTIONS)
 				{
 					Vector3Int next = new Vector3Int(cur.x + dir.x, cur.y, cur.z + dir.y);
-					if (GameManager.GetMonoSystem<IBuildingMonoSystem>().HasPipeAt(next) && !visted.Contains(next))
+					if (GameManager.GetMonoSystem<IBuildingMonoSystem>().HasPipeAt(next) && GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(next).IsWielded() && !visted.Contains(next))
 					{
 						GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(next).GetComponentInChildren<MeshRenderer>().material.color = Color.green;
 						positions.Push(next);
 						visted.Add(next);
-
-						if (_sectors.Where(e => e.pos == next).Count() > 0) _sectors.Where(e => e.pos == next).First().obj.GetComponent<MeshRenderer>().material.color = Color.green;
-					}
+                        
+                        if (_sectors.Where(e => e.pos == next).Count() > 0) _sectors.Where(e => e.pos == next).First().obj.Enable();
+						else GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(next).EnableIcon();
+                    }
 				}
 			}
 		}
 
 		public bool CheckTutorialConnections()
 		{
-			return false;
 			Pipe t1 = GameObject.FindWithTag("PipeT1").GetComponent<Pipe>();
 			Pipe t2 = GameObject.FindWithTag("PipeT2").GetComponent<Pipe>();
 
@@ -114,7 +148,6 @@ namespace BeneathTheSurface.MonoSystems
 					{
 						positions.Push(next);
 						visted.Add(next);
-
 						if (next == t2.GetGridPosition()) return true && BeneathTheSurfaceGameManager.eventProgresss == 3;
 					}
 				}
@@ -177,6 +210,8 @@ namespace BeneathTheSurface.MonoSystems
 
 			List<Vector2> pts = sampler.Sample(_numberOfSectors + 1);
 
+			for (int i = 0; i < pts.Count; i++) pts[i] -= new Vector2(_bounds.size.x / 2.0f, _bounds.size.z / 2.0f);
+
 			_masterSector = pts.OrderBy(e => Random.value).First();
 			pts.Remove(_masterSector);
 			_sectorLocations = pts;
@@ -184,17 +219,14 @@ namespace BeneathTheSurface.MonoSystems
 			GameObject prefab = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			foreach (Vector2 p in pts)
 			{
-				GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                SectorObject obj = Instantiate(_sectorPrefab);
 				obj.transform.position = new Vector3(Mathf.Floor(p.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(p.y / GridSize) * GridSize);
-				obj.transform.localScale *= GridSize;
-				obj.GetComponent<MeshRenderer>().material.color = Color.blue;
 				_sectors.Add(new Sector(obj, new Vector3Int(Mathf.FloorToInt(p.x / GridSize), Mathf.FloorToInt(_height / GridSize), Mathf.FloorToInt(p.y / GridSize))));
 
 			}
-			GameObject master = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			master.transform.position = new Vector3(Mathf.Floor(_masterSector.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(_masterSector.y / GridSize) * GridSize);
-			master.transform.localScale *= GridSize;
-			master.GetComponent<MeshRenderer>().material.color = Color.red;
+            SectorObject master = Instantiate(_mainSectorPrefab);
+            master.transform.position = new Vector3(Mathf.Floor(_masterSector.x / GridSize) * GridSize, Mathf.Floor(_height / GridSize) * GridSize, Mathf.Floor(_masterSector.y / GridSize) * GridSize);
+			master.Enable();
 		}
 
 		private int GetPipeOrention(Vector3Int pos)
@@ -272,7 +304,7 @@ namespace BeneathTheSurface.MonoSystems
 
 				Pipe pipe = GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(loc);
 
-				pipe.SetWeldedState(false);
+                pipe.SetWeldedState(false);
 
 				Vector3Int newPos = new Vector3Int(loc.x + Random.Range(-_borkenRange, _borkenRange), loc.y, loc.z + Random.Range(-_borkenRange, _borkenRange));
 
@@ -283,13 +315,26 @@ namespace BeneathTheSurface.MonoSystems
 
 				GameManager.GetMonoSystem<IBuildingMonoSystem>().RemovePipe(loc);
 
-				pipe.transform.position = new Vector3(newPos.x, newPos.y, newPos.z) * GridSize;
+				pipe.transform.position = new Vector3(newPos.x, (_oceanFloorHeight + 2.5f) / GridSize, newPos.z) * GridSize;
 			}
 		}
 
+		private void SpawnExtraPipe()
+		{
+            for (int i = 0; i < _numOfExtraPipesToSpawn; i++)
+			{
+				int key = Random.Range(1, _pipeVarients.Count);
+				Vector3 position = new Vector3(Random.Range(-_bounds.size.x / 2.0f, _bounds.size.x / 2.0f), _oceanFloorHeight + 2.5f, Random.Range(-_bounds.size.z / 2.0f, _bounds.size.z / 2.0f));
+
+
+                Pipe pipe = Instantiate(_pipeVarients[key], position, _pipeVarients[key].transform.rotation);
+                pipe.SetWeldedState(false);
+				pipe.gameObject.SetActive(true);
+            }
+        }
+
 		private void Awake()
 		{
-			_tutorialDone = false;
 			_sectors = new List<Sector>();
 			GeneratePipeVarients();
 			SpawnSectors();
@@ -297,9 +342,19 @@ namespace BeneathTheSurface.MonoSystems
 			PlacePipes();
 
 			CheckConnections();
-		}
 
-		private void Update()
+
+            SpawnExtraPipe();
+
+            SpawnKelp();
+        }
+
+        private void Start()
+        {
+            _tutorialDone = false;
+        }
+
+        private void Update()
 		{
 			if (!_tutorialDone)
 			{

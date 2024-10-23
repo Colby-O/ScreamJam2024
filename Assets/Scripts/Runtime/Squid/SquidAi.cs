@@ -153,8 +153,17 @@ namespace BeneathTheSurface
 			_rotateSpeed *= 3.0f;
 			_player.DeathScene();
 		}
-		
-		private void LookForPlayer()
+
+        public void Reset()
+        {
+            _animator.SetTrigger("Reset");
+            _attacking = false;
+            _swimLength *= 3.0f;
+            _rotateSpeed /= 3.0f;
+			NextTarget();
+        }
+
+        private void LookForPlayer()
 		{
 			if (_player.IsHidden()) return;
 			Vector3 dir = Vector3.Normalize(_player.transform.position - transform.position);
