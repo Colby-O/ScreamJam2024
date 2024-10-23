@@ -20,6 +20,7 @@ namespace BeneathTheSurface.Events
         public record EnterDivingBell();
         public record StartDescent();
         public record ReachedOceanFloor();
+        public record ResetEvent();
         public record Quit();
     }
 }
