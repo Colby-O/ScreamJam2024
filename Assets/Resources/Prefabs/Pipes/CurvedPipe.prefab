@@ -108,7 +108,7 @@ MonoBehaviour:
   - {fileID: 4521922216947177889}
   _wieldTime: 0.1
   _renderer: {fileID: 3917923025521807703}
-  _rendererDist: 100000
+  _rendererDist: 100
   _icon: {fileID: 40657399974472569}
   _isWelded: 0
   _exemptFromConnection: 0
