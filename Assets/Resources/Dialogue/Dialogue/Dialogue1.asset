@@ -18,12 +18,16 @@ MonoBehaviour:
   - msg:
       list:
       - Key: 0
-        Value: 'Hello, Diver 16. This is Henry from the management team at Abyssal
+        Value: 'Hello, Depthwalker. This is Henry from the management team at Abyssal
           Drilling Co. Due to strong currents, our piping system has sustained severe
           damage, and Diver Team Omega is currently unresponsive. We need you to
           begin your rotation early to address the issue. '
       - Key: 1
-        Value: 
+        Value: Bonjour, Depthwalker. Ici Henry de l'equipe de gestion de Abyssal
+          Drilling Co. En raison de forts courants, notre systeme de tuyauterie a
+          subi des dommages importants, et l'equipe de plongeurs Omega ne repond
+          plus. Nous avons besoin que vous commenciez votre rotation plus tot pour
+          regler le probleme.
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -32,16 +36,19 @@ MonoBehaviour:
         Value: As we like to say here at Abyssal Drilling, every milliliter of oil
           lost is a dollar and seventy six cents out of our pockets.
       - Key: 1
-        Value: 
+        Value: Comme on aime le dire ici chez Abyssal Drilling, chaque millilitre
+          de petrole perdu, c'est un dollar et soixante-seize cents en moins dans
+          nos poches.
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
       list:
       - Key: 0
         Value: You'll find your equipment on your desk. Please collect it as soon
-          as possible
+          as possible.
       - Key: 1
-        Value: 
+        Value: Vous trouverez votre equipement sur votre bureau. Veuillez le recuperer
+          des que possible.
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: 34070d34aeeaf934cb900cbf7fa77376, type: 2}
   order: 1

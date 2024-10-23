@@ -45,12 +45,6 @@ namespace BeneathTheSurface.Events
         {
             bool hidePreviousView = true;
 
-            if (raw != null && raw is BSEvents.Pause)
-            {
-                BSEvents.Pause data = raw as BSEvents.Pause;
-                hidePreviousView = data.HidePreviousView;
-            }
-
             if (
                 GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<PauseMenuView>() ||
                 GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<SettingsView>()
@@ -59,7 +53,8 @@ namespace BeneathTheSurface.Events
                 if (GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<PauseMenuView>()) BeneathTheSurfaceGameManager.allowInput = true;
                 GameManager.GetMonoSystem<IUIMonoSystem>().ShowLast();
             }
-            else if (!GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<MainMenuView>())
+            else if (!GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<MainMenuView>() &&
+                !GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<DeathView>())
             {
                 BeneathTheSurfaceGameManager.allowInput = false;
                 GameManager.GetMonoSystem<IUIMonoSystem>().Show<PauseMenuView>(true, hidePreviousView);

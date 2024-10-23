@@ -83,6 +83,8 @@ namespace BeneathTheSurface.MonoSystems
 
 		private bool _tutorialDone = false;
 
+		private bool _isSolved = false;
+
 		private void SpawnKelp()
 		{
             PoissonSampler sampler = new PoissonSampler(_bounds.size.x, _bounds.size.z, _distanceBetweenKelp);
@@ -126,6 +128,8 @@ namespace BeneathTheSurface.MonoSystems
                     }
 				}
 			}
+
+			_isSolved = _sectors.Where(s => s.obj.isEnabled).Count() == _sectors.Count;
 		}
 
 		public bool CheckTutorialConnections()
@@ -335,7 +339,8 @@ namespace BeneathTheSurface.MonoSystems
 
 		private void Awake()
 		{
-			_sectors = new List<Sector>();
+			_isSolved = false;
+            _sectors = new List<Sector>();
 			GeneratePipeVarients();
 			SpawnSectors();
 			GeneratePipes();
@@ -356,12 +361,18 @@ namespace BeneathTheSurface.MonoSystems
 
         private void Update()
 		{
+			if (_isSolved && BeneathTheSurfaceGameManager.eventProgresss == 7)
+			{
+                GameManager.EmitEvent(new BSEvents.FinishedPipes());
+            }
+
 			if (!_tutorialDone)
 			{
 				_tutorialDone = CheckTutorialConnections();
 				if (_tutorialDone) GameManager.EmitEvent(new BSEvents.FinishedPipeTutorial());
 			}
-			CheckConnections();
+
+			if (!_isSolved) CheckConnections();
 		}
 	}
 }

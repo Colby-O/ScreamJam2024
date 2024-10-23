@@ -115,10 +115,10 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WobbleAmount: 0
-    - _WobbleFreq: 2
-    - _WobbleReistance: 0.05
-    - _WobbleSpeed: 10
+    - _WobbleAmount: 0.008
+    - _WobbleFreq: 2.09
+    - _WobbleReistance: 0.02
+    - _WobbleSpeed: 2
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

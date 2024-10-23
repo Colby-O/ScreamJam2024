@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
   m_Name: Dialogue7
   m_EditorClassIdentifier: 
-  id: -1
+  id: 6
   includeInDatabase: 1
   _dialogues:
   - msg:
@@ -20,7 +20,33 @@ MonoBehaviour:
       - Key: 0
         Value: Congratulations! Your descent was a success.
       - Key: 1
-        Value: 
+        Value: "F\xE9licitations ! Votre descente a \xE9t\xE9 un succ\xE8s"
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "Inside the diving bell, you\u2019ll find a map of the piping system.
+          Green markers indicate where sensors detect active oil flow, while red
+          markers show pipes with no flow."
+      - Key: 1
+        Value: "\xC0 l'int\xE9rieur de la cloche de plong\xE9e, vous trouverez une
+          carte du syst\xE8me de tuyauterie. Les marqueurs verts indiquent o\xF9
+          les capteurs d\xE9tectent un flux de p\xE9trole actif, tandis que les marqueurs
+          rouges montrent les tuyaux sans flux"
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: "You\u2019ll need to use this map to identify the faulty pipes. I
+          recommend making one repair at a time, then returning to the diving bell
+          to resupply and reassess the situation."
+      - Key: 1
+        Value: "Vous devrez utiliser cette carte pour identifier les tuyaux d\xE9fectueux.
+          Je vous recommande de faire une r\xE9paration \xE0 la fois, puis de revenir
+          \xE0 la cloche de plong\xE9e pour vous r\xE9approvisionner et r\xE9\xE9valuer
+          la situation"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -31,7 +57,10 @@ MonoBehaviour:
           reestablished contact with the other dive team. I advise you to proceed
           with caution"
       - Key: 1
-        Value: 
+        Value: "Aussi, un petit avertissement : nous avons re\xE7u des lectures \xE9tranges,
+          sugg\xE9rant qu'une grande cr\xE9ature pourrait errer dans la r\xE9gion.
+          De plus, nous n'avons toujours pas r\xE9tabli le contact avec l'autre \xE9quipe
+          de plong\xE9e. Je vous conseille d'avancer avec prudence."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   order: 7

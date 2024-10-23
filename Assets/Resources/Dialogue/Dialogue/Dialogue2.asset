@@ -18,11 +18,16 @@ MonoBehaviour:
   - msg:
       list:
       - Key: 0
-        Value: "I see you\u2019ve located your equipment. Now, head over to the pipes
-          on the other side of the room, and we\u2019ll give you a quick refresher
-          on our welding standards."
+        Value: "I see you\u2019ve found your equipment. Now, head out of your room
+          and make your way to the welding training facility. It\u2019s the large
+          metal building near the stack of pipes on the other side of the rig. you
+          can\u2019t miss it!"
       - Key: 1
-        Value: 
+        Value: "Je vois que vous avez trouv\xE9 votre \xE9quipement. Maintenant,
+          sortez de votre chambre et dirigez-vous vers l'installation d'entra\xEEnement
+          de soudage. C'est le grand b\xE2timent en m\xE9tal pr\xE8s de l'empilement
+          de tuyaux de l'autre c\xF4t\xE9 de la plateforme. Vous ne pouvez pas le
+          manquer!"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   order: 2

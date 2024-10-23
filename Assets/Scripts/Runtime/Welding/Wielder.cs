@@ -59,6 +59,7 @@ namespace BeneathTheSurface.Wielding
                         _as.Play();
                     }
                     _isOn = true;
+                    FindAnyObjectByType<SquidAi>().ApplyNoise((1f / 15f) * Time.deltaTime);
                     if (_lastPipe != null && _lastPipe != pipe) _lastPipe.SetWieldingState(false);
                     pipe.SetWieldingState(true);
                     _lastPipe = pipe;

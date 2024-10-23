@@ -12,27 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
   m_Name: Dialogue4
   m_EditorClassIdentifier: 
-  id: -1
+  id: 3
   includeInDatabase: 1
   _dialogues:
   - msg:
       list:
       - Key: 0
-        Value: 'Great work! This is exactly the kind of work ethic we value at Abyssal
-          Drilling. '
+        Value: Great work! This is exactly the kind of work ethic we value at Abyssal
+          Drilling.
       - Key: 1
-        Value: 
+        Value: "Excellent travail! C'est exactement le genre d'\xE9thique de travail
+          que nous valorisons chez Abyssal Drilling."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
       list:
       - Key: 0
-        Value: "Funny story, one of our team members had a run-in with a hammerhead
-          shark a few months ago. In a stroke of genius, the fellow used extra pipes
-          to create a barrier between himself and the shark, which is probably the
-          only reason he\u2019s still alive. "
+        Value: 'Funny story: one of our team members had a run-in with a hammerhead
+          shark a few months ago. It almost turned out to be his last dive, but fortunately,
+          he decided to wait it out in the kelp fields below the rig.'
       - Key: 1
-        Value: 
+        Value: "Une histoire dr\xF4le : l'un de nos membres d'\xE9quipe a eu une
+          rencontre avec un requin-marteau il y a quelques mois. Cela aurait presque
+          \xE9t\xE9 sa derni\xE8re plong\xE9e, mais heureusement, il a d\xE9cid\xE9
+          d'attendre dans les champs de varech en dessous de la plateforme."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -40,7 +43,8 @@ MonoBehaviour:
       - Key: 0
         Value: "But don\u2019t worry\u2026 you likely won\u2019t encounter any sharks!"
       - Key: 1
-        Value: 
+        Value: "Mais ne vous inqui\xE9tez pas... vous ne rencontrerez probablement
+          pas de requins !"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -50,16 +54,19 @@ MonoBehaviour:
           you navigate the deep sea. If any sea creatures come close, you\u2019ll
           hear a beeping sound."
       - Key: 1
-        Value: 
+        Value: "En parlant de requins, nous vous avons \xE9galement \xE9quip\xE9
+          d'un radar pour vous aider \xE0 naviguer dans les profondeurs marines.
+          Si des cr\xE9atures marines s'approchent, vous entendrez un son de bip."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
       list:
       - Key: 0
-        Value: "In case you encounter something more dangerous, we\u2019ve also provided
-          a flare to help scare it off."
+        Value: "If the radar starts beeping, don\u2019t panic, it\u2019s probably
+          just harmless fish."
       - Key: 1
-        Value: 
+        Value: "Si le radar commence \xE0 biper, ne paniquez pas, ce sont probablement
+          juste des poissons inoffensifs"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -67,7 +74,7 @@ MonoBehaviour:
       - Key: 0
         Value: "[Click \u20183\u2019 To Equip Your Radar]"
       - Key: 1
-        Value: 
+        Value: "[Appuyez sur '3' pour \xE9quiper votre radar]"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -75,7 +82,8 @@ MonoBehaviour:
       - Key: 0
         Value: '[Green Dots Are Obstacles And Red Are Life Forms.]'
       - Key: 1
-        Value: 
+        Value: ' [Les points verts sont des obstacles et les points rouges sont des
+          formes de vie.]'
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -83,7 +91,8 @@ MonoBehaviour:
       - Key: 0
         Value: '[Radar will emit a beeping sound if any life forms are detected nearby]'
       - Key: 1
-        Value: 
+        Value: "[Le radar \xE9mettra un son de bip si des formes de vie sont d\xE9tect\xE9es
+          \xE0 proximit\xE9.]"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -91,7 +100,8 @@ MonoBehaviour:
       - Key: 0
         Value: "[Click \u20184\u2019 To Equip Your Flair. A flair can scare off creatures]"
       - Key: 1
-        Value: 
+        Value: " [Appuyez sur '4' pour \xE9quiper votre fus\xE9e \xE9clairante. Une
+          fus\xE9e \xE9clairante peut faire fuir les cr\xE9atures.]"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -100,7 +110,8 @@ MonoBehaviour:
         Value: '[You only have one flare until you are able to collect another at
           your diving bell.]'
       - Key: 1
-        Value: 
+        Value: "[Vous n'avez qu'une seule fus\xE9e \xE9clairante jusqu'\xE0 ce que
+          vous puissiez en r\xE9cup\xE9rer une autre \xE0 votre cloche de plong\xE9e.]"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   order: 4

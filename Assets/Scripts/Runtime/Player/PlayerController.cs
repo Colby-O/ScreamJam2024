@@ -205,9 +205,8 @@ namespace BeneathTheSurface.Player
 
 		private void HandlePuase(InputAction.CallbackContext e)
 		{
-			if (_inspector.IsExaming) return;
 			GameManager.EmitEvent(new BSEvents.Pause());
-		}
+        }
 
 		private void CheckIfIndoors()
 		{
@@ -229,6 +228,11 @@ namespace BeneathTheSurface.Player
             return down.Where(e => e.transform != null && e.transform.CompareTag("InsideDiveBell")).Count() > 0 && up.Where(e => e.transform != null && e.transform.CompareTag("InsideDiveBell")).Count() > 0;
         }
 
+
+		public void OnDeath()
+		{
+            GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(DeathView)));
+        }
 
         private void OnTriggerEnter(Collider other)
 		{
@@ -283,13 +287,14 @@ namespace BeneathTheSurface.Player
 
         private void Update()
 		{
-			_oxygenLevel -= _oxygenDepletionRate * Time.deltaTime;
-			CheckIfIndoors();
+			if (_oxygenLevel < 0) OnDeath();
+
+            CheckIfIndoors();
 
 			if (_inDeathScene)
 			{
 				_head.transform.LookAt(_squid);
-                GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(DeathView)));
+				OnDeath();
             }
 			else
 			{
@@ -302,7 +307,11 @@ namespace BeneathTheSurface.Player
 				ProcessView();
 				if (_onLadder) ProcessLadderMovement();
 				else if (transform.position.y > _oceanMonoSystem.GetSeaLevel() || IsInsideDiveBell()) ProcessMovement();
-				else ProcessUnderwaterMovement();
+				else
+				{
+                    _oxygenLevel -= _oxygenDepletionRate * Time.deltaTime;
+                    ProcessUnderwaterMovement();
+                }
 
                 //            if (!GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy() && IsInsideDiveBell() && !_diveAudioWasSet)
                 //{

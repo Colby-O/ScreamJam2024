@@ -308,13 +308,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50769cb0249d50942a5d9bbfc76b50ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfSectors: 30
+  _numberOfSectors: 1
   _bounds:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 200, y: 1, z: 200}
   _height: -1000
   _minDistBetweenSectors: 10
-  _amountOfBreaks: 15
+  _amountOfBreaks: 1
   _borkenRange: 5
   _striaght: {fileID: 132278347216092646, guid: 14939e19fd0dd154da610c783a90ba12,
     type: 3}

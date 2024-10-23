@@ -135,6 +135,7 @@ namespace BeneathTheSurface.UI
             _invertxT.text = _titles[BeneathTheSurfaceGameManager.language][5];
             _invertyT.text = _titles[BeneathTheSurfaceGameManager.language][6];
             _languageT.text = _titles[BeneathTheSurfaceGameManager.language][7];
+            _backT.text = _titles[BeneathTheSurfaceGameManager.language][8];
         }
     }
 }

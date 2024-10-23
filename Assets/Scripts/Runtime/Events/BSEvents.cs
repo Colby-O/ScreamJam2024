@@ -21,6 +21,8 @@ namespace BeneathTheSurface.Events
         public record StartDescent();
         public record ReachedOceanFloor();
         public record ResetEvent();
+        public record FinishedPipes();
+        public record Ending();
         public record Quit();
     }
 }

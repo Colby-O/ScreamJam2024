@@ -26,6 +26,17 @@ namespace BeneathTheSurface
             transform.localRotation = Quaternion.Slerp(start, end, progress);
         }
 
+        public void Close()
+        {
+            Quaternion o = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, _closeRot));
+            Quaternion c = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, _openRot));
+            GameManager.GetMonoSystem<IAnimationMonoSystem>().RequestAnimation(
+                this,
+                _audioSource.clip.length,
+                (float progress) => Rotate(progress, c, o)
+            );
+        }
+
         public bool Interact(Interactor interactor)
         {
             if (_isLocked) return false;

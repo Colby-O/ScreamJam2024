@@ -16,6 +16,7 @@ namespace BeneathTheSurface
             if (!allowInteract) return false;
             Inspector inspector = interactor.GetComponent<Inspector>();
             if (inspector.IsExaming) return false;
+            if (_auidoSource != null && _auidoclip != null) _auidoSource.PlayOneShot(_auidoclip);
             Pipe pipe = GetComponent<Pipe>();
             if ( pipe != null) pipe.EnableSnap();
             inspector.StartExamine(transform, _type, offsetPoint, string.Empty, true);

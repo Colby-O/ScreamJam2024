@@ -10,16 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
-  m_Name: TestDialogue
+  m_Name: Dialogue9
   m_EditorClassIdentifier: 
-  id: 1
-  includeInDatabase: 0
+  id: -1
+  includeInDatabase: 1
   _dialogues:
   - msg:
       list:
       - Key: 0
-        Value: Englishs Yo
+        Value: Well... damn...
       - Key: 1
-        Value: French Yo
+        Value: Eh bien... mince...
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: I have no idea how we're going to handle the press with this happening
+          again.
+      - Key: 1
+        Value: "Je n'ai aucune id\xE9e de comment nous allons g\xE9rer la presse
+          avec cela qui se produit encore."
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  order: 9

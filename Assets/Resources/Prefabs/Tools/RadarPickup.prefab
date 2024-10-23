@@ -67,15 +67,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7a69dcd3dc6884489e7e09a41b7c9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
-  offsetPoint: {fileID: 0}
-  _auidoSource: {fileID: 0}
+  _tool: 2
+  _allowInteract: 1
   _auidoclip: {fileID: 8300000, guid: c4346d9cb618e9148ac185c1519435a5, type: 3}
   _meshRenderer: {fileID: 7300129645227130648}
   _outlineColor: {r: 0, g: 13.704945, b: 16, a: 0}
   _outlineScale: 1.03
-  allowInteract: 1
-  _tool: 2
 --- !u!1 &5893772868695484126
 GameObject:
   m_ObjectHideFlags: 0

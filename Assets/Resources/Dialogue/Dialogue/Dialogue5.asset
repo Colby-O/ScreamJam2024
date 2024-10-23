@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
   m_Name: Dialogue5
   m_EditorClassIdentifier: 
-  id: -1
+  id: 4
   includeInDatabase: 1
   _dialogues:
   - msg:
@@ -27,11 +27,13 @@ MonoBehaviour:
   - msg:
       list:
       - Key: 0
-        Value: "Please exit your room and head to the diving bell. Once inside, suit
-          up in your diving gear and activate your body cam. We\u2019ll be monitoring
-          your progress closely."
+        Value: "Please  head to the diving bell. Once inside, suit up in your diving
+          gear and activate your body cam. We\u2019ll be monitoring your progress
+          closely. "
       - Key: 1
-        Value: 
+        Value: "Veuillez vous rendre \xE0 la cloche de plong\xE9e. Une fois \xE0
+          l'int\xE9rieur, enfilez votre \xE9quipement de plong\xE9e et activez votre
+          cam\xE9ra corporelle. Nous surveillerons vos progr\xE8s de pr\xE8s."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   order: 5

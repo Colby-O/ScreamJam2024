@@ -18,16 +18,6 @@ MonoBehaviour:
   - msg:
       list:
       - Key: 0
-        Value: "Inside the diving bell, you\u2019ll find a map of the piping system.
-          Green markers indicate where sensors detect active oil flow, while red
-          markers show pipes with no flow."
-      - Key: 1
-        Value: 
-      keyCollision: 0
-    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
-  - msg:
-      list:
-      - Key: 0
         Value: "You\u2019ll need to use this map to identify the faulty pipes. I
           recommend making one repair at a time, then returning to the diving bell
           to resupply and reassess the situation."

@@ -23,7 +23,11 @@ MonoBehaviour:
           Use the pipe scraps scattered around the room to connect the two pipes
           at each end of the room."
       - Key: 1
-        Value: 
+        Value: "Je sais que vous \xEAtes un soudeur exp\xE9riment\xE9 maintenant,
+          mais comme \xE7a fait quelques mois depuis votre derni\xE8re rotation,
+          nous allons vous donner une petite session de pratique. Utilisez les morceaux
+          de tuyaux \xE9parpill\xE9s dans la pi\xE8ce pour connecter les deux tuyaux
+          \xE0 chaque extr\xE9mit\xE9 de la salle."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -31,7 +35,7 @@ MonoBehaviour:
       - Key: 0
         Value: '[Click ''E'' To Pick up and Place Pipes]'
       - Key: 1
-        Value: 
+        Value: '[Appuyez sur ''E'' pour ramasser et placer les tuyaux]'
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -39,7 +43,7 @@ MonoBehaviour:
       - Key: 0
         Value: '[Use The Arrow Keys To Rotate The Pipes]'
       - Key: 1
-        Value: 
+        Value: "[Utilisez les touches fl\xE9ch\xE9es pour faire pivoter les tuyaux]"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -47,7 +51,7 @@ MonoBehaviour:
       - Key: 0
         Value: '[Click ''2'' to equip the welder]'
       - Key: 1
-        Value: 
+        Value: "[Appuyez sur '2' pour \xE9quiper le poste \xE0 souder]"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:
@@ -56,7 +60,8 @@ MonoBehaviour:
         Value: '[Click Left Mouse Button With The Welder Equipped To Weld Together
           A Pipe]'
       - Key: 1
-        Value: 
+        Value: " [Appuyez sur le bouton gauche de la souris avec le poste \xE0 souder
+          \xE9quip\xE9 pour souder un tuyau ensemble]"
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   order: 3

@@ -1,3 +1,4 @@
+using PlazmaGames.Runtime.DataStructures;
 using PlazmaGames.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace BeneathTheSurface
 {
     public abstract class GameView : View
     {
-        [SerializeField] private TMP_Text _aid;
+        [SerializeField] protected TMP_Text _aid;
 
         public void ToggleAid(bool statis)
         {
@@ -18,9 +19,15 @@ namespace BeneathTheSurface
 
     public class SurfaceView : GameView
     {
+        [SerializeField] private SerializableDictionary<Languages, List<string>> _titles;
         public override void Init()
         {
 
+        }
+
+        private void Update()
+        {
+            _aid.text = _titles[BeneathTheSurfaceGameManager.language][0];
         }
     }
 }

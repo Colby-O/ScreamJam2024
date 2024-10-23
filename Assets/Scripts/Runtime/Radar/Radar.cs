@@ -56,7 +56,7 @@ namespace BeneathTheSurface.Radar
                 }
             }
 
-            if (Physics.BoxCast(scanPos, new Vector3(1f, 1000f, 1f), Quaternion.AngleAxis(_rot, Vector3.up) * Vector3.forward, out hit, Quaternion.identity, _scanDistance, _scanableLayer.value))
+            if (Physics.BoxCast(scanPos, new Vector3(1f, 450f, 1f), Quaternion.AngleAxis(_rot, Vector3.up) * Vector3.forward, out hit, Quaternion.identity, _scanDistance, _scanableLayer.value))
             {
                 // Hit Scannable
                 Debug.DrawLine(scanPos, hit.point, Color.red, 1);

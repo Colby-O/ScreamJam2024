@@ -10,13 +10,17 @@ namespace BeneathTheSurface.Wielding
         [SerializeField] private Material _offMat;
         [SerializeField] private GameObject _icon;
 
+        public bool isEnabled = false;
+
         public void Enable()
         {
+            isEnabled = true;
             _icon.GetComponent<Renderer>().material = _onMat;
         }
 
         public void Disable()
         {
+            isEnabled = false;
             _icon.GetComponent<Renderer>().material = _offMat;
         }
     }

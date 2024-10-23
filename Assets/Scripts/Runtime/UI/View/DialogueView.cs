@@ -1,4 +1,5 @@
 using PlazmaGames.Core;
+using PlazmaGames.Runtime.DataStructures;
 using PlazmaGames.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace BeneathTheSurface.MonoSystems
         [SerializeField] private TMP_Text _dialogueBox;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private GameObject _hint;
+        [SerializeField] private TMP_Text _hinTt;
 
         [Header("Settings")]
         [SerializeField] private float _textSpeed = 1f;
@@ -24,6 +26,7 @@ namespace BeneathTheSurface.MonoSystems
 
         private float _timeSinceDialogueStarted;
 
+        [SerializeField] private SerializableDictionary<Languages, List<string>> _titles;
 
         IEnumerator TypeMessage(string msg)
         {
@@ -77,6 +80,8 @@ namespace BeneathTheSurface.MonoSystems
 
         private void Update()
         {
+            _hinTt.text = _titles[BeneathTheSurfaceGameManager.language][0];
+
             if (_isWriting) {
                 _timeSinceDialogueStarted += Time.deltaTime;
             }

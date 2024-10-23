@@ -7,6 +7,7 @@ using PlazmaGames.Core;
 using PlazmaGames.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BeneathTheSurface
@@ -89,6 +90,8 @@ namespace BeneathTheSurface
             AddEventListener<BSEvents.StartDescent>(GenericGameEvents.StartDescentResponse);
             AddEventListener<BSEvents.ReachedOceanFloor>(GenericGameEvents.ReachedOceanFloorResponse);
             AddEventListener<BSEvents.ResetEvent>(GenericGameEvents.ResetResponse);
+            AddEventListener<BSEvents.FinishedPipes>(GenericGameEvents.FinishedPipesResponse);
+            AddEventListener<BSEvents.Ending>(GenericGameEvents.EndingResponse);
             AddEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
@@ -115,6 +118,12 @@ namespace BeneathTheSurface
         private void Awake()
         {
 
+        }
+
+        public static void End()
+        {
+            Debug.Log("Ending!");
+            GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 
         private void Start()

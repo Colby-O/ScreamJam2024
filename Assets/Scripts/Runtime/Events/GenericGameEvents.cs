@@ -28,7 +28,9 @@ namespace BeneathTheSurface.Events
         private static EventResponse _startDescentResponse;
         private static EventResponse _reachedOceanFloorResponse;
         private static EventResponse _resetResponse;
-
+        private static EventResponse _finishedPipesResponse;
+        private static EventResponse _endingResponse;
+      
         public static EventResponse QuitResponse { 
             get { 
                 _quitResponse ??= new EventResponse(QuitEvent);
@@ -115,12 +117,35 @@ namespace BeneathTheSurface.Events
             }
         }
 
+        public static EventResponse FinishedPipesResponse
+        {
+            get
+            {
+                _finishedPipesResponse ??= new EventResponse(FinishedPipesEvent);
+                return _finishedPipesResponse;
+            }
+        }
+
+        public static EventResponse EndingResponse
+        {
+            get
+            {
+                _endingResponse ??= new EventResponse(EndingEvent);
+                return _endingResponse;
+            }
+        }
+
+        private static GameObject _underwaterLight;
+
         private static void StartEvent(Component _, object __)
         {
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.CoverScreen();
             BeneathTheSurfaceGameManager.allowInput = true;
             GameObject.FindObjectOfType<MenuMusic>()?.FadeOut();
+            GameObject.FindWithTag("MenuLight").SetActive(false);
+            _underwaterLight = GameObject.FindWithTag("UnderwaterLight");
+            _underwaterLight.SetActive(false);
             GameObject.FindWithTag("StartDoor").GetComponent<Door>().Lock();
             GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Lock();
             GameObject.FindWithTag("DiveBellHatch").GetComponent<Hatch>().Lock();
@@ -177,20 +202,35 @@ namespace BeneathTheSurface.Events
         }
         private static void ReachedOceanFloorEvent(Component _, object __)
         {
-            Debug.Log("Here!2232");
             BeneathTheSurfaceGameManager.eventProgresss++;
+            _underwaterLight.SetActive(true);
             GameObject.FindWithTag("DiveBellHatch").GetComponent<Hatch>().Unlock();
             GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
             GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("OceanAmbient", PlazmaGames.Audio.AudioType.Ambient, true, false);
-            //GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
+            GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 
         private static void ResetEvent(Component _, object __)
         {
             Object.FindObjectOfType<SquidAi>().Reset();
-            BeneathTheSurfaceGameManager.player.Reset();
             BeneathTheSurfaceGameManager.player.transform.position = GameObject.FindWithTag("DiveBell").transform.position;
+            BeneathTheSurfaceGameManager.player.Reset();
             GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(UnderwaterView)));
+        }
+
+        private static void FinishedPipesEvent(Component _, object __)
+        {
+            BeneathTheSurfaceGameManager.eventProgresss++;
+            GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
+        }
+
+        private static void EndingEvent(Component _, object __)
+        {
+            BeneathTheSurfaceGameManager.eventProgresss++;
+            BeneathTheSurfaceGameManager.player.transform.position = GameObject.FindWithTag("DiveBell").transform.position;
+            GameObject.FindWithTag("DiveBellHatch").GetComponent<Hatch>().Close();
+            GameObject.FindWithTag("DiveBellHatch").GetComponent<Hatch>().Lock();
+            BeneathTheSurfaceGameManager.End();
         }
 
         private static void QuitEvent(Component _, object __)

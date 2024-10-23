@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ce7dd443902944497b81d99d6bc114, type: 3}
+  m_Name: Dialogue8
+  m_EditorClassIdentifier: 
+  id: -1
+  includeInDatabase: 1
+  _dialogues:
+  - msg:
+      list:
+      - Key: 0
+        Value: "Great job! All systems are back online. Head back to the diving bell,
+          and we\u2019ll begin bringing you to the surface."
+      - Key: 1
+        Value: "Excellent travail ! Tous les syst\xE8mes sont de nouveau op\xE9rationnels.
+          Retournez \xE0 la cloche de plong\xE9e, et nous commencerons \xE0 vous
+          remonter \xE0 la surface."
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  - msg:
+      list:
+      - Key: 0
+        Value: 'Given the current situation, the risks you face are far greater than
+          the threat of decompression sickness, well make your ascent fast. '
+      - Key: 1
+        Value: "\xC9tant donn\xE9 la situation actuelle, les risques auxquels vous
+          faites face sont bien plus grands que la menace de la maladie de d\xE9compression.
+          Nous allons rendre votre ascension rapide."
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
+  order: 8
