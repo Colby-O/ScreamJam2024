@@ -26,6 +26,8 @@ namespace BeneathTheSurface.Player
 		private float _gravity = -9.81f;
 		private float _velY;
 
+		[SerializeField] private float _ladderSpeed = 1.0f;
+
 		[SerializeField] private float _oxygenDepletionRate = 0.01f;
 		[SerializeField] private float _oxygenLevel = 1.0f;
 		[SerializeField] private AudioClip _oxygenRefillSound;
@@ -50,6 +52,9 @@ namespace BeneathTheSurface.Player
 
 		private bool _inDeathScene = false;
 		private bool _isIndoors = false;
+
+		[SerializeField] private bool _isHidden = false;
+		[SerializeField] private bool _onLadder = false;
 
 		private float _lastSwimTime;
 		[SerializeField] private float _swimLength = 2.0f;
@@ -107,6 +112,14 @@ namespace BeneathTheSurface.Player
 				_rigidbody.AddForce(_head.transform.forward * _rawMovementInput.y * _swimStrength, ForceMode.Impulse);
 				SetSwim();
 			}
+		}
+
+		private void ProcessLadderMovement()
+		{
+			Vector3 vel = Vector3.zero;
+			vel += transform.right * _rawMovementInput.x * _ladderSpeed;
+			vel += transform.up * _rawMovementInput.y * _ladderSpeed;
+			_rigidbody.velocity = vel;
 		}
 		
 		private void ProcessMovement()
@@ -172,6 +185,35 @@ namespace BeneathTheSurface.Player
 			GameManager.GetMonoSystem<IWeatherMonoSystem>().SetWeatherState(true, _isIndoors);
 		}
 
+		public bool IsHidden()
+		{
+			return _isHidden;
+		}
+
+		private void OnTriggerEnter(Collider other)
+		{
+			if (other.gameObject.CompareTag("Kelp"))
+			{
+				_isHidden = true;
+			}
+			else if (other.gameObject.CompareTag("Ladder"))
+			{
+				_onLadder = true;
+			}
+		}
+
+		private void OnTriggerExit(Collider other)
+		{
+			if (other.gameObject.CompareTag("Kelp"))
+			{
+				_isHidden = false;
+			}
+			else if (other.gameObject.CompareTag("Ladder"))
+			{
+				_onLadder = false;
+			}
+		}
+
 		private void Awake()
 		{
 			_squid = FindObjectOfType<SquidAi>().transform;
@@ -212,7 +254,8 @@ namespace BeneathTheSurface.Player
 				}
 				else _playerInput.enabled = true;
 				ProcessView();
-				if (transform.position.y > _oceanMonoSystem.GetSeaLevel()) ProcessMovement();
+				if (_onLadder) ProcessLadderMovement();
+				else if (transform.position.y > _oceanMonoSystem.GetSeaLevel()) ProcessMovement();
 				else ProcessUnderwaterMovement();
 			}
 		}

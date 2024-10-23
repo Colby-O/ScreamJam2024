@@ -156,6 +156,7 @@ namespace BeneathTheSurface
 		
 		private void LookForPlayer()
 		{
+			if (_player.IsHidden()) return;
 			Vector3 dir = Vector3.Normalize(_player.transform.position - transform.position);
 			if (Physics.SphereCast(transform.position, _visionThickness, dir, out RaycastHit hit, _visionRange))
 			{
