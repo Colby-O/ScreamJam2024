@@ -187,9 +187,10 @@ namespace BeneathTheSurface.Events
 
         private static void ResetEvent(Component _, object __)
         {
-            Object.FindAnyObjectByType<SquidAi>().Reset();
+            Object.FindObjectOfType<SquidAi>().Reset();
             BeneathTheSurfaceGameManager.player.Reset();
             BeneathTheSurfaceGameManager.player.transform.position = GameObject.FindWithTag("DiveBell").transform.position;
+            GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(UnderwaterView)));
         }
 
         private static void QuitEvent(Component _, object __)

@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
 using PlazmaGames.Audio;
+using BeneathTheSurface.UI;
+using PlazmaGames.UI;
 
 namespace BeneathTheSurface.Player
 {
@@ -287,7 +289,8 @@ namespace BeneathTheSurface.Player
 			if (_inDeathScene)
 			{
 				_head.transform.LookAt(_squid);
-			}
+                GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(DeathView)));
+            }
 			else
 			{
 				if (!BeneathTheSurfaceGameManager.allowInput || (_inspector.IsExaming && !_inspector.IsMoveable))
@@ -301,21 +304,25 @@ namespace BeneathTheSurface.Player
 				else if (transform.position.y > _oceanMonoSystem.GetSeaLevel() || IsInsideDiveBell()) ProcessMovement();
 				else ProcessUnderwaterMovement();
 
-    //            if (!GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy() && IsInsideDiveBell() && !_diveAudioWasSet)
-				//{
-				//	_oceanAudioWasSet = false;
-    //                _diveAudioWasSet = true;
-    //                GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
-    //                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("DiveBellMove", PlazmaGames.Audio.AudioType.Ambient, true, false);
-    //            }
-				//else if (!GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy() && !_oceanAudioWasSet)
-				//{
-				//	_diveAudioWasSet = false;
-				//	_oceanAudioWasSet = true;
-    //                GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
-    //                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("OceanAmbient", PlazmaGames.Audio.AudioType.Ambient, true, false);
-    //            }
+                //            if (!GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy() && IsInsideDiveBell() && !_diveAudioWasSet)
+                //{
+                //	_oceanAudioWasSet = false;
+                //                _diveAudioWasSet = true;
+                //                GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
+                //                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("DiveBellMove", PlazmaGames.Audio.AudioType.Ambient, true, false);
+                //            }
+                //else if (!GameManager.GetMonoSystem<IWeatherMonoSystem>().IsStromy() && !_oceanAudioWasSet)
+                //{
+                //	_diveAudioWasSet = false;
+                //	_oceanAudioWasSet = true;
+                //                GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
+                //                GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("OceanAmbient", PlazmaGames.Audio.AudioType.Ambient, true, false);
+                //            }
             }
-		}
+            if (GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<DeathView>() && Keyboard.current[Key.Space].wasPressedThisFrame)
+            {
+                GameManager.EmitEvent(new BSEvents.ResetEvent());
+            }
+        }
 	}
 }

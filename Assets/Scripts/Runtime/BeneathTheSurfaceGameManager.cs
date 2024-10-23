@@ -88,6 +88,7 @@ namespace BeneathTheSurface
             AddEventListener<BSEvents.EnterDivingBell>(GenericGameEvents.EnterDivingBellResponse);
             AddEventListener<BSEvents.StartDescent>(GenericGameEvents.StartDescentResponse);
             AddEventListener<BSEvents.ReachedOceanFloor>(GenericGameEvents.ReachedOceanFloorResponse);
+            AddEventListener<BSEvents.ResetEvent>(GenericGameEvents.ResetResponse);
             AddEventListener<BSEvents.Quit>(GenericGameEvents.QuitResponse);
         }
 
