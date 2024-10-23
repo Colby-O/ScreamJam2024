@@ -99,6 +99,7 @@ namespace BeneathTheSurface.Events
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.CoverScreen();
             BeneathTheSurfaceGameManager.allowInput = true;
+            GameObject.FindObjectOfType<MenuMusic>()?.FadeOut();
             GameObject.FindWithTag("StartDoor").GetComponent<Door>().Lock();
             GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Lock();
             GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(SurfaceView)));
