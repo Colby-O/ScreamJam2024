@@ -4,6 +4,8 @@ using BeneathTheSurface.Player;
 using PlazmaGames.Animation;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
+using PlazmaGames.Core.Utils;
+using PlazmaGames.Rendering.CRT;
 using PlazmaGames.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +39,7 @@ namespace BeneathTheSurface
         [SerializeField] private DialogueMonoSystem _dialogueMonoSystem;
 
         public static bool allowInput = true;
+        public static bool isPaused = false;
         public static PlayerController player;
 
         public static Languages language;
@@ -117,12 +120,12 @@ namespace BeneathTheSurface
 
         private void Awake()
         {
-
+            UniversalRenderPipelineUtils.SetRendererFeatureActive<CRTRendererFeature>(false);
         }
 
         public static void End()
         {
-            Debug.Log("Ending!");
+            BeneathTheSurfaceGameManager.player.CoverScreen();
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 

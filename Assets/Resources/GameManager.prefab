@@ -308,13 +308,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50769cb0249d50942a5d9bbfc76b50ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfSectors: 1
+  _numberOfSectors: 15
   _bounds:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 200, y: 1, z: 200}
   _height: -1000
   _minDistBetweenSectors: 10
-  _amountOfBreaks: 1
+  _amountOfBreaks: 7
   _borkenRange: 5
   _striaght: {fileID: 132278347216092646, guid: 14939e19fd0dd154da610c783a90ba12,
     type: 3}
@@ -328,7 +328,7 @@ MonoBehaviour:
   _mainSectorPrefab: {fileID: 2401368417928475113, guid: 21c4a13a28af2b542bfaabcd1a8361f8,
     type: 3}
   _oceanFloorHeight: -1100
-  _kelpPrefab: {fileID: 8104464965669018142, guid: 262292c8240f7dc4ba60bbb82977938d,
+  _kelpPrefab: {fileID: 8104464965669018142, guid: 030cbc1603ce1c44ab88279fe7171890,
     type: 3}
   _kelpHeightRange: {x: 1, y: 2}
   _distanceBetweenKelp: 10

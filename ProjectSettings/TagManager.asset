@@ -17,6 +17,8 @@ TagManager:
   - DiveBell
   - InsideDiveBell
   - Surface
+  - UnderwaterLight
+  - MenuLight
   layers:
   - Default
   - TransparentFX

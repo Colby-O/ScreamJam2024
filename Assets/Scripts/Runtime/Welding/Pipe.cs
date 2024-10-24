@@ -35,6 +35,8 @@ namespace BeneathTheSurface.Wielding
 
         private bool _hasHitGroud = false;
 
+        public bool _debug = false;
+
         public void EnableIcon()
         {
             _icon.SetActive(true);
@@ -82,14 +84,34 @@ namespace BeneathTheSurface.Wielding
         {
             Connections = new List<Vector3Int>();
 
+            int i = 0;
             foreach (Transform t in _connectionsLocations)
             {
-                if (transform.position.x - t.position.x > 0) Connections.Add(_lastPosition + new Vector3Int(-1, 0, 0));
-                else if (transform.position.x - t.position.x < 0) Connections.Add(_lastPosition + new Vector3Int(1, 0, 0));
-                else if (transform.position.y - t.position.y > 0) Connections.Add(_lastPosition + new Vector3Int(0, -1, 0));
-                else if (transform.position.y - t.position.y < 0) Connections.Add(_lastPosition + new Vector3Int(0, 1, 0));
-                else if (transform.position.z - t.position.z > 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, -1));
-                else if (transform.position.z - t.position.z < 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, 1));
+                if (_debug) Debug.Log(i + ": " + (transform.position - t.position));
+
+                float xMax = Mathf.Abs((transform.position - t.position).x);
+                float yMax = Mathf.Abs((transform.position - t.position).y);
+                float zMax = Mathf.Abs((transform.position - t.position).z);
+
+
+                if (xMax > yMax && xMax > zMax)
+                {
+
+                    if (transform.position.x - t.position.x > 0) Connections.Add(_lastPosition + new Vector3Int(-1, 0, 0));
+                    else if (transform.position.x - t.position.x < 0) Connections.Add(_lastPosition + new Vector3Int(1, 0, 0));
+                }
+                else if (yMax > xMax && yMax > zMax)
+                {
+                    if (transform.position.y - t.position.y > 0) Connections.Add(_lastPosition + new Vector3Int(0, -1, 0));
+                    else if (transform.position.y - t.position.y < 0) Connections.Add(_lastPosition + new Vector3Int(0, 1, 0));
+                }
+                else
+                {
+                    if (transform.position.z - t.position.z > 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, -1));
+                    else if (transform.position.z - t.position.z < 0) Connections.Add(_lastPosition + new Vector3Int(0, 0, 1));
+                }
+
+                i++;
             }
         }
 

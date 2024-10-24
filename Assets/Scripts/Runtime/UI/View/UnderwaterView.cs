@@ -34,7 +34,7 @@ namespace BeneathTheSurface
         public override void Hide()
         {
             base.Hide();
-            UniversalRenderPipelineUtils.SetRendererFeatureActive<CRTRendererFeature>(false);
+            //UniversalRenderPipelineUtils.SetRendererFeatureActive<CRTRendererFeature>(false);
         }
 
         public void Update()

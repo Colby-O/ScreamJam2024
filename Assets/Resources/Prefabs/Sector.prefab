@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.01, z: 1}
+  m_LocalScale: {x: 3, y: 0.01, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8319275184498528380}
@@ -229,3 +229,4 @@ MonoBehaviour:
   _onMat: {fileID: 2100000, guid: 75d53a4fbe3823d458c5369653bc19d6, type: 2}
   _offMat: {fileID: 2100000, guid: 46bb77bc2a3fbc14cba3edb96bc4ad1d, type: 2}
   _icon: {fileID: 1741033525839971743}
+  isEnabled: 0

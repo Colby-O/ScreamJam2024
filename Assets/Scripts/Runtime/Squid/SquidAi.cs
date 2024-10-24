@@ -29,8 +29,10 @@ namespace BeneathTheSurface
 		private Rigidbody _rigidbody;
 		private Animator _animator;
 		private Transform _squidBody;
-		
-		private bool IsLonely() => Time.time - _lastWithPlayerTime >= _lonelyTime;
+
+        private Quaternion _startRotation;
+
+        private bool IsLonely() => Time.time - _lastWithPlayerTime >= _lonelyTime;
 		
 		[SerializeField] Vector3 _target;
 		private Vector3 _targetDirection => Vector3.Normalize(_target - transform.position);
@@ -61,7 +63,8 @@ namespace BeneathTheSurface
 		{
 			_animator = GetComponentInChildren<Animator>();
 			_squidBody = transform.GetChild(0);
-			_swimAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).length;
+            _startRotation = _squidBody.rotation;
+            _swimAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).length;
 			Debug.Log(_swimAnimationTime);
 			_rigidbody = GetComponent<Rigidbody>();
 			Debug.Log(_rigidbody);
@@ -160,11 +163,13 @@ namespace BeneathTheSurface
             _attacking = false;
             _swimLength *= 3.0f;
             _rotateSpeed /= 3.0f;
-			NextTarget();
+            _squidBody.rotation = _startRotation;
+            NextTarget();
         }
 
         private void LookForPlayer()
 		{
+			if (Time.time - _flareTime < _flareDuration) return;
 			if (_player.IsHidden()) return;
 			Vector3 dir = Vector3.Normalize(_player.transform.position - transform.position);
 			if (Physics.SphereCast(transform.position, _visionThickness, dir, out RaycastHit hit, _visionRange))
@@ -180,6 +185,8 @@ namespace BeneathTheSurface
 
 		private void Update()
 		{
+			_rigidbody.isKinematic = BeneathTheSurfaceGameManager.isPaused;
+
 			if (_attacking && _attackRotationProgress < 1.0f)
 			{
 				_squidBody.rotation *= Quaternion.AngleAxis(180.0f * Time.deltaTime, Vector3.right);

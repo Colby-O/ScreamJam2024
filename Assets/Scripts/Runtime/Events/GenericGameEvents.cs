@@ -139,6 +139,7 @@ namespace BeneathTheSurface.Events
 
         private static void StartEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 0) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.CoverScreen();
             BeneathTheSurfaceGameManager.allowInput = true;
@@ -156,6 +157,7 @@ namespace BeneathTheSurface.Events
 
         private static void ItemsFetchedEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 1) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameObject.FindWithTag("StartDoor").GetComponent<Door>().Unlock();
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
@@ -163,18 +165,21 @@ namespace BeneathTheSurface.Events
 
         private static void PipeTutorialEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 2) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
        
         private static void FinishedPipeTutorialEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 3) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
         
         private static void AllItemsTestedEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 4) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Unlock();
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
@@ -182,16 +187,19 @@ namespace BeneathTheSurface.Events
 
         private static void EnterDivingBellEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 5) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.CoverScreen();
             GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Close();
             GameObject.FindWithTag("DiveBellDoor").GetComponent<Door>().Lock();
             GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(UnderwaterView)));
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
+            UniversalRenderPipelineUtils.SetRendererFeatureActive<CRTRendererFeature>(true);
         }
         
         private static void StartDescentEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 6) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.UncoverScreen();
             GameObject.FindWithTag("DiveBell").GetComponent<DiveBellController>().Decend();
@@ -202,12 +210,10 @@ namespace BeneathTheSurface.Events
         }
         private static void ReachedOceanFloorEvent(Component _, object __)
         {
-            BeneathTheSurfaceGameManager.eventProgresss++;
             _underwaterLight.SetActive(true);
             GameObject.FindWithTag("DiveBellHatch").GetComponent<Hatch>().Unlock();
             GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
             GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("OceanAmbient", PlazmaGames.Audio.AudioType.Ambient, true, false);
-            GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 
         private static void ResetEvent(Component _, object __)
@@ -220,16 +226,16 @@ namespace BeneathTheSurface.Events
 
         private static void FinishedPipesEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 7) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
             GameManager.GetMonoSystem<IDialogueMonoSystem>().Load(BeneathTheSurfaceGameManager.DialogueDB.GetAllEntries().Where(e => e.order == BeneathTheSurfaceGameManager.eventProgresss).FirstOrDefault());
         }
 
         private static void EndingEvent(Component _, object __)
         {
+            if (BeneathTheSurfaceGameManager.eventProgresss != 8) return;
             BeneathTheSurfaceGameManager.eventProgresss++;
-            BeneathTheSurfaceGameManager.player.transform.position = GameObject.FindWithTag("DiveBell").transform.position;
-            GameObject.FindWithTag("DiveBellHatch").GetComponent<Hatch>().Close();
-            GameObject.FindWithTag("DiveBellHatch").GetComponent<Hatch>().Lock();
+            BeneathTheSurfaceGameManager.player.Disable();
             BeneathTheSurfaceGameManager.End();
         }
 

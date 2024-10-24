@@ -22,7 +22,10 @@ MonoBehaviour:
           recommend making one repair at a time, then returning to the diving bell
           to resupply and reassess the situation."
       - Key: 1
-        Value: 
+        Value: "Vous devrez utiliser cette carte pour identifier les tuyaux d\xE9fectueux.
+          Je vous recommande de faire une r\xE9paration \xE0 la fois, puis de revenir
+          \xE0 la cloche de plong\xE9e pour vous r\xE9approvisionner et r\xE9\xE9valuer
+          la situation."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: d30de56c971efb8429c45c8fbad37391, type: 2}
   order: 6

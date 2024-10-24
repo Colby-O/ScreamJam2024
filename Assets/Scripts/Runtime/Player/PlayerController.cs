@@ -71,6 +71,11 @@ namespace BeneathTheSurface.Player
 		private bool _diveAudioWasSet = true;
         private bool _oceanAudioWasSet = false;
 
+		public void RefillFlare()
+		{
+			GetComponent<ToolController>().AddFlare();
+		}
+
         public float GetOxygenLevel()
 		{
 			return _oxygenLevel;
@@ -200,7 +205,7 @@ namespace BeneathTheSurface.Player
 		public void RefillOxygen()
 		{
 			_oxygenLevel = 1.0f;
-			_audioSource.PlayOneShot(_oxygenRefillSound);
+			GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_oxygenRefillSound, PlazmaGames.Audio.AudioType.Sfx, false, true);
 		}
 
 		private void HandlePuase(InputAction.CallbackContext e)
@@ -283,6 +288,7 @@ namespace BeneathTheSurface.Player
         {
             _inDeathScene = false;
             _rigidbody.isKinematic = false;
+			_oxygenLevel = 1;
         }
 
         private void Update()

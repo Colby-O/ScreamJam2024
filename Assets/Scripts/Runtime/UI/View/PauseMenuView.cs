@@ -42,6 +42,7 @@ namespace BeneathTheSurface.UI
 
         private void Resume()
         {
+            BeneathTheSurfaceGameManager.isPaused = false;
             BeneathTheSurfaceGameManager.player.Enable();
             _blur.SetActive(false);
             GameManager.EmitEvent(new BSEvents.Pause());
@@ -61,6 +62,7 @@ namespace BeneathTheSurface.UI
         public override void Show()
         {
             base.Show();
+            BeneathTheSurfaceGameManager.isPaused = true;
             _blur.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;

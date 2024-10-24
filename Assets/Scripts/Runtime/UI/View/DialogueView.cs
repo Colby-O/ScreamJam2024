@@ -80,6 +80,8 @@ namespace BeneathTheSurface.MonoSystems
 
         private void Update()
         {
+            if (Keyboard.current[Key.F9].wasPressedThisFrame) _allowTextSkip = !_allowTextSkip;
+
             _hinTt.text = _titles[BeneathTheSurfaceGameManager.language][0];
 
             if (_isWriting) {

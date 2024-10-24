@@ -21,7 +21,8 @@ MonoBehaviour:
         Value: "Great! Now that you\u2019re refreshed on your duties, we can get
           you into the action."
       - Key: 1
-        Value: 
+        Value: "Super ! Maintenant que vous \xEAtes \xE0 jour sur vos responsabilit\xE9s,
+          nous pouvons vous plonger dans l'action."
       keyCollision: 0
     dialogueEvent: {fileID: 11400000, guid: a43294146b1928b4c9a43d09f215eb2f, type: 2}
   - msg:

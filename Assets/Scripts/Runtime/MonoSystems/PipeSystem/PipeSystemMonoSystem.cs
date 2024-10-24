@@ -1,6 +1,7 @@
 using BeneathTheSurface.Events;
 using BeneathTheSurface.Helpers;
 using BeneathTheSurface.Wielding;
+using PlazmaGames.Attribute;
 using PlazmaGames.Core;
 using PlazmaGames.Core.Events;
 using PlazmaGames.ProGen.Sampling;
@@ -85,7 +86,10 @@ namespace BeneathTheSurface.MonoSystems
 
 		private bool _isSolved = false;
 
-		private void SpawnKelp()
+		[SerializeField, ReadOnly] private int _numberOfActiveSectors;
+        [SerializeField, ReadOnly] private int _targetNumberOfActiveSectors;
+
+        private void SpawnKelp()
 		{
             PoissonSampler sampler = new PoissonSampler(_bounds.size.x, _bounds.size.z, _distanceBetweenKelp);
 
@@ -106,6 +110,9 @@ namespace BeneathTheSurface.MonoSystems
             }
 			foreach (Sector s in _sectors) s.obj.Disable();
 
+            _targetNumberOfActiveSectors = _sectors.Count;
+            _numberOfActiveSectors = 0;
+
             Stack <Vector3Int> positions = new Stack<Vector3Int>();
 			List<Vector3Int> visted = new List<Vector3Int>();
 			positions.Push(new Vector3Int(Mathf.FloorToInt(_masterSector.x / GridSize), Height, Mathf.FloorToInt(_masterSector.y / GridSize)));
@@ -119,24 +126,27 @@ namespace BeneathTheSurface.MonoSystems
 					Vector3Int next = new Vector3Int(cur.x + dir.x, cur.y, cur.z + dir.y);
 					if (GameManager.GetMonoSystem<IBuildingMonoSystem>().HasPipeAt(next) && GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(next).IsWielded() && !visted.Contains(next))
 					{
-						GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(next).GetComponentInChildren<MeshRenderer>().material.color = Color.green;
 						positions.Push(next);
 						visted.Add(next);
-                        
-                        if (_sectors.Where(e => e.pos == next).Count() > 0) _sectors.Where(e => e.pos == next).First().obj.Enable();
+
+						if (_sectors.Where(e => e.pos == next).Count() > 0)
+						{
+                            _numberOfActiveSectors++;
+							_sectors.Where(e => e.pos == next).First().obj.Enable();
+						}
 						else GameManager.GetMonoSystem<IBuildingMonoSystem>().GetPipeAt(next).EnableIcon();
                     }
 				}
 			}
 
-			_isSolved = _sectors.Where(s => s.obj.isEnabled).Count() == _sectors.Count;
+			_isSolved = _numberOfActiveSectors == _targetNumberOfActiveSectors;
 		}
 
 		public bool CheckTutorialConnections()
 		{
 			Pipe t1 = GameObject.FindWithTag("PipeT1").GetComponent<Pipe>();
 			Pipe t2 = GameObject.FindWithTag("PipeT2").GetComponent<Pipe>();
-
+			Debug.Log(t1.name + " : " + t2.name);
 			Stack<Vector3Int> positions = new Stack<Vector3Int>();
 			List<Vector3Int> visted = new List<Vector3Int>();
 			positions.Push(t1.GetGridPosition());
