@@ -299,6 +299,7 @@ namespace BeneathTheSurface.Player
 
 			if (_inDeathScene)
 			{
+				if (_squid == null || _squid.gameObject == null) _squid = FindObjectOfType<SquidAi>().transform;
 				_head.transform.LookAt(_squid);
 				OnDeath();
             }

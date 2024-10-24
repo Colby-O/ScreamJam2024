@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using BeneathTheSurface.Player;
 using BeneathTheSurface.Interfaces;
+using PlazmaGames.Core;
+using PlazmaGames.Audio;
 
 namespace BeneathTheSurface
 {
@@ -23,6 +25,7 @@ namespace BeneathTheSurface
         public bool Interact(Interactor interactor)
         {
             _player.RefillFlare();
+            GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("pickup", PlazmaGames.Audio.AudioType.Sfx, false, true);
             return true;
         }
 

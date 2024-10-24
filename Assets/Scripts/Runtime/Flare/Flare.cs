@@ -29,7 +29,8 @@ namespace BeneathTheSurface
 			_flame.gameObject.SetActive(true);
 			_fuse.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
 
-			_squid.SendFlare();
+			if (_squid == null || _squid.gameObject == null) _squid = FindObjectOfType<SquidAi>();
+            _squid.SendFlare();
 		}
 
 		public bool IsOn()

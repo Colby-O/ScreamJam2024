@@ -46,6 +46,7 @@ namespace BeneathTheSurface
         public static int eventProgresss = 0;
         public static DialogueDatabase DialogueDB => ((BeneathTheSurfaceGameManager)_instance)._dialogueDB;
 
+        public static bool isPlaying = false;
 
         /// <summary>
         /// Adds all events listeners

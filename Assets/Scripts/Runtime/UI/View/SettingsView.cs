@@ -77,7 +77,7 @@ namespace BeneathTheSurface.UI
 
         private void InvertY(bool val)
         {
-            _playerSettings.invertedViewY = val;
+            _playerSettings.invertedViewY = !val;
         }
 
         private void Language(int val)
@@ -105,8 +105,15 @@ namespace BeneathTheSurface.UI
             _sfx.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetSfXVolume();
             _sensivity.value = Mathf.InverseLerp(12, 48, _playerSettings.sensitivityX);
             _invertx.isOn = _playerSettings.invertedViewX;
-            _inverty.isOn = _playerSettings.invertedViewY;
+            _inverty.isOn = !_playerSettings.invertedViewY;
             _language.value = (int)BeneathTheSurfaceGameManager.language;
+        }
+
+        private void Start()
+        {
+            _overall.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetOverallVolume();
+            _music.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetMusicVolume();
+            _sfx.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetSfXVolume();
         }
 
         public override void Show()
@@ -114,6 +121,15 @@ namespace BeneathTheSurface.UI
             base.Show();
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+
+
+            _overall.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetOverallVolume();
+            _music.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetMusicVolume();
+            _sfx.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetSfXVolume();
+            _sensivity.value = Mathf.InverseLerp(12, 48, _playerSettings.sensitivityX);
+            _invertx.isOn = _playerSettings.invertedViewX;
+            _inverty.isOn = !_playerSettings.invertedViewY;
+            _language.value = (int)BeneathTheSurfaceGameManager.language;
         }
 
         public override void Hide()

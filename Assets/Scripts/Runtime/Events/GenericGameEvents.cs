@@ -140,6 +140,7 @@ namespace BeneathTheSurface.Events
         private static void StartEvent(Component _, object __)
         {
             if (BeneathTheSurfaceGameManager.eventProgresss != 0) return;
+            BeneathTheSurfaceGameManager.isPlaying = true;
             BeneathTheSurfaceGameManager.eventProgresss++;
             BeneathTheSurfaceGameManager.player.CoverScreen();
             BeneathTheSurfaceGameManager.allowInput = true;
@@ -218,7 +219,8 @@ namespace BeneathTheSurface.Events
 
         private static void ResetEvent(Component _, object __)
         {
-            Object.FindObjectOfType<SquidAi>().Reset();
+            GameObject.Destroy(Object.FindObjectOfType<SquidAi>().gameObject);
+            GameObject.Instantiate(Resources.Load<SquidAi>("Prefabs/Squid"), new Vector3(0f, -900f, 0f), Quaternion.identity);
             BeneathTheSurfaceGameManager.player.transform.position = GameObject.FindWithTag("DiveBell").transform.position;
             BeneathTheSurfaceGameManager.player.Reset();
             GameManager.EmitEvent(new BSEvents.OpenMenu(true, true, typeof(UnderwaterView)));

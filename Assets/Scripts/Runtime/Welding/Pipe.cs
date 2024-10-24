@@ -245,7 +245,7 @@ namespace BeneathTheSurface.Wielding
             transform.position = new Vector3(_lastPosition.x, _lastPosition.y, _lastPosition.z) * GridSize;
             ComputeConeections();
 
-            if (HasConnection() && (lastPos != _lastPosition || _lastRot != transform.rotation)) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("PlacePipe", PlazmaGames.Audio.AudioType.Sfx, false, true);
+            if (HasConnection() && (lastPos != _lastPosition || _lastRot != transform.rotation) && BeneathTheSurfaceGameManager.isPlaying) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("PlacePipe", PlazmaGames.Audio.AudioType.Sfx, false, true);
 
             if (_isWielding && HasConnection() && !IsWielded()) _wieldProgress += Time.deltaTime;
             if (!HasConnection() && !IsWielded()) _wieldProgress = 0;

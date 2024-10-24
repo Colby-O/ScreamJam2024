@@ -30,7 +30,9 @@ namespace BeneathTheSurface
 		private Animator _animator;
 		private Transform _squidBody;
 
+        private Vector3 _startPosition;
         private Quaternion _startRotation;
+        private Quaternion _startRotationPar;
 
         private bool IsLonely() => Time.time - _lastWithPlayerTime >= _lonelyTime;
 		
@@ -59,10 +61,17 @@ namespace BeneathTheSurface
 			if (_noiseLevel > 1.0f) _noiseLevel = 1.0f;
 		}
 
-		private void Start()
+        private void Awake()
+        {
+            _squidBody = transform.GetChild(0);
+            _startPosition = transform.position;
+            _startRotation = _squidBody.localRotation;
+			_startRotationPar = transform.rotation;
+        }
+
+        private void Start()
 		{
 			_animator = GetComponentInChildren<Animator>();
-			_squidBody = transform.GetChild(0);
             _startRotation = _squidBody.rotation;
             _swimAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).length;
 			Debug.Log(_swimAnimationTime);
@@ -73,7 +82,7 @@ namespace BeneathTheSurface
 			NextTarget();
 		}
 
-		private bool IsValidMove()
+        private bool IsValidMove()
 		{
 			return (
 				!Physics.SphereCast(transform.position, _visionThickness, _targetDirection, out var _, _maxMoveDistance) &&
@@ -149,7 +158,8 @@ namespace BeneathTheSurface
 		private void KillPlayer()
 		{
 			Debug.Log("YOU DEAD");
-			_animator.SetTrigger("Attack");
+
+            _animator.SetTrigger("Attack");
 			_attacking = true;
 			_target = _player.transform.position;
 			_swimLength /= 3.0f;
@@ -157,13 +167,24 @@ namespace BeneathTheSurface
 			_player.DeathScene();
 		}
 
-        public void Reset()
+        public void ResetSquid()
         {
             _animator.SetTrigger("Reset");
+
             _attacking = false;
+			_swimTrigger = false;
+			_attackRotationProgress = 0;
+
             _swimLength *= 3.0f;
             _rotateSpeed /= 3.0f;
+
             _squidBody.rotation = _startRotation;
+			transform.position = _startPosition;
+			transform.rotation = _startRotationPar;
+            _swimAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).length;
+            _lastWithPlayerTime = Time.time;
+            _animator.Rebind();
+			_animator.Update(0f);
             NextTarget();
         }
 
